@@ -74,6 +74,12 @@ class StudentListScreen extends Screen
                         ->sort(),
                     TD::make('name', '姓名')
                         ->sort(),
+                    TD::make('contact_book', '聯絡簿')
+                        ->sort()
+                        ->render(function (Student $student) {
+                            $status = $student->where('id', $student->id)->with('studentParentSignContactBook')->first();
+                            return $status === 1 ? '<span class="text-success">已簽</span>' : '<span class="text-danger">未簽</span>';
+                        }),
                     TD::make('actions', '操作')
                         ->render(function (Student $student) {
                             return Link::make('編輯')

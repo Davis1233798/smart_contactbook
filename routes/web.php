@@ -17,5 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/admin');
 
 
-Route::get('/{parent_id}/response', [ParentResponseController::class, 'showResponseForm']);
-Route::post('/{parent_id}/save-response', [ParentResponseController::class, 'saveResponse']);
+
+
+
+
+Route::get('/parent-response/{parentId}/{studentId}/{contactBookId}/response', [ParentResponseController::class, 'showResponseForm'])->name('parent.response');
+Route::post('/parent-response/submit', [ParentResponseController::class, 'submitResponse'])->name('parent.response.submit');
