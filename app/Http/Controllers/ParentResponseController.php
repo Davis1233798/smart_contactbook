@@ -33,6 +33,6 @@ class ParentResponseController extends Controller
 
         // 如果需要，進行其他處理
 
-        return redirect()->back()->with('success', '您的回應已提交。');
+        return redirect()->route('platform.students.list');
     }
 }
