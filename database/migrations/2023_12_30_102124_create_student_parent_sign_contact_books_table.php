@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('student_parent_sign_contact_books', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->nullable()->comment('學生ID');
-            $table->foreignId('contact_id')->nullable()->comment('聯絡簿ID');
+            $table->foreignId('contact_book_id')->nullable()->comment('聯絡簿ID');
             $table->string('url')->nullable()->comment('簽名連結');
             $table->text('reply')->nullable()->comment('回覆');
             $table->foreignId('parent_infos_id')->nullable()->comment('家長ID');
