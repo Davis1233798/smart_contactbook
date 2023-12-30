@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Screens\Student;
 
+use App\Actions\LineNotify\LineNotifySendAction;
+use App\Models\LineNotify;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
@@ -126,7 +128,7 @@ class StudentListScreen extends Screen
                 ->render(function (Student $student) {
                     return Button::make()
                         ->icon('trash')
-                        ->confirm(__('translate.確定刪除').$student->name.__('translate.此動作無法復原'))
+                        ->confirm(__('translate.確定刪除') . $student->name . __('translate.此動作無法復原'))
                         ->method('methodRemove', [
                             'id' => $student->id,
                         ]);
@@ -136,8 +138,10 @@ class StudentListScreen extends Screen
     }
     public function methodSendContactBook(): RedirectResponse
     {
-        Log::info(request());
 
+
+        $action = app()->make(LineNotifySendAction::class);
+        $action->execute();
         return redirect()->route('platform.students.list');
     }
 
