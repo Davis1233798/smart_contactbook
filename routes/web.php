@@ -21,5 +21,5 @@ Route::redirect('/', '/admin');
 
 
 
-Route::get('/parent-response/{parentId}/{studentId}/{contactBookId}/response', [ParentResponseController::class, 'showResponseForm'])->name('parent.response');
-Route::post('/parent-response/submit', [ParentResponseController::class, 'submitResponse'])->name('parent.response.submit');
+Route::get('/response/{parentId}/{studentId}/', [ParentResponseController::class, 'showResponseForm'])->name('parent.response');
+Route::post('/response/submit', [ParentResponseController::class, 'submitResponse'])->name('parent.response.submit');

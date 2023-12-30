@@ -47,7 +47,7 @@ class LineNotifySendAction
                     $cr = " \n";//換行字元
                     $contactBook = ContactBook::where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->with('classNotifications', 'studentNotifications')->first();
 
-                    $url = config('app.url') . '/' . $student->parentInfos->first()->id . '/' . $student->id . '/' . $contactBook . '/response';
+                    $url = config('app.url') . '/response/' . $student->parentInfos->first()->id . '/' . $student->id ;
                     $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
                     $message .= $cr . $student->name . '同學的 今日聯絡簿 聯絡事項如下:';
                     $index = 0;
