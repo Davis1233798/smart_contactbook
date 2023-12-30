@@ -140,7 +140,7 @@ class StudentListScreen extends Screen
     {
 
 
-        $action = app()->make(LineNotifySendAction::class);
+        $action = app()->make(LineNotifySendAction::class, ['message' => 'test']);
         $action->execute();
         return redirect()->route('platform.students.list');
     }
