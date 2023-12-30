@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>留言板</h1>
-    <form action="{{ url($parentInfo->id . '/save-response') }}" method="POST">
+    <form action="{{ url( '/response/submit/$parentInfo->id ') }}" method="POST">
         @csrf
         <textarea name="message" rows="4" cols="50">在這裡留下您的訊息...</textarea>
         <br>
