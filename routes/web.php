@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ParentResponseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/{parent_id}/response', [ParentResponseController::class, 'showResponseForm']);
+Route::post('/{parent_id}/save-response', [ParentResponseController::class, 'saveResponse']);
