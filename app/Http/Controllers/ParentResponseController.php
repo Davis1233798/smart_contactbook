@@ -33,6 +33,6 @@ class ParentResponseController extends Controller
 
         // 如果需要，進行其他處理
 
-        return redirect()->route('platform.students.list');
+        echo "<script>window.close();</script>";
     }
 }
