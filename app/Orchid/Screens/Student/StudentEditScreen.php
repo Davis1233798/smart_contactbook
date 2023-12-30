@@ -84,7 +84,6 @@ class StudentEditScreen extends Screen
             ]),
             Layout::rows([
                 Group::make([
-
                     Matrix::make('parentInfos')
                         ->columns([
                          '姓名' => 'name',
@@ -103,6 +102,7 @@ class StudentEditScreen extends Screen
 
     public function save(Student $student)
     {
+
         try {
             // 學生資料儲存邏輯
             if (!$student->id) {
@@ -114,9 +114,6 @@ class StudentEditScreen extends Screen
             $parentInfosData = request()->get('parentInfos', []);
 
             foreach ($parentInfosData as $parentInfoData) {
-                // 為 parentInfo 生成 line_id
-                $parentInfoData['line_id'] = hash('sha256', $student->id);
-
                 // 判斷是新增還是更新
                 if (isset($parentInfoData['id']) && !empty($parentInfoData['id'])) {
                     // 更新現有parentInfo
