@@ -139,7 +139,6 @@ class StudentListScreen extends Screen
     public function methodSendContactBook(): RedirectResponse
     {
 
-
         $action = app()->make(LineNotifySendAction::class, ['message' => 'test']);
         $action->execute();
         return redirect()->route('platform.students.list');

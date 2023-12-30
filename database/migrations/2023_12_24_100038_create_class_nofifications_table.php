@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('class_notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('school_class_id')->nullable()->comment('班級ID');
-            $table->foreignId('contact_id')->nullable()->comment('聯絡簿ID');
+            $table->foreignId('contact_book_id')->nullable()->comment('聯絡簿ID');
             $table->text('content')->nullable()->comment('內容');
             $table->timestamps();
         });

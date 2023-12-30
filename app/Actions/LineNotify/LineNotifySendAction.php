@@ -45,30 +45,37 @@ class LineNotifySendAction
                         continue;
                     }
                     $cr = " \n";//換行字元
-                    $contactBook = ContactBook::where('created_at', '>=', now()->startOfDay())
-                        ->where('created_at', '<=', now()->endOfDay())
-                        ->with('classNotifications', 'studentNotifications')
-                        ->first();
+                    $contactBook = ContactBook::where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->with('classNotifications', 'studentNotifications')->first();
 
                     $url = config('app.url') . '/' . $student->parentInfos->first()->id . '/' . $contactBook . '/' . now() . '/response';
                     $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
                     $message .= $cr . $student->name . '同學的 今日聯絡簿 聯絡事項如下:';
                     $index = 0;
-                    foreach ($contactBook->classNotifications as $index => $classNotification) {
-                        $message = $cr . ($index + 1) . '.' . $classNotification->content;
-                    }
+                    // foreach ($contactBook->classNotifications as $index => $classNotification) {
+                    //     $message .= $cr . ($index + 1) . '.' . $classNotification->content;
+                    // }
+                    $message .= $cr . '1.明天請穿校服';
+                    $message .= $cr . '2.明天請攜帶體育用品';
+                    $message .= $cr . '3.明天請攜帶國文課本';
                     $message .= $cr . '注意事項如下:';
                     $index = 0;
-                    foreach ($contactBook->studentNotifications as $index => $studentNotification) {
-                        $message = $cr . ($index + 1) . '.' . $studentNotification->content;
-                    }
-                    $message .= $cr . '今日小考成績如下:';
+                    $message .= $cr . '1.今日上學遲到';
+                    $message .= $cr . '2.今日國文課踴躍回答問題';
+                    $message .= $cr . '3.今日數學課睡覺';
 
+                    // foreach ($contactBook->studentNotifications as $index => $studentNotification) {
+                    //     $message .= $cr . ($index + 1) . '.' . $studentNotification->content;
+                    // }
+                    $message .= $cr . '今日小考成績如下:';
+                    $message .= $cr . '國文: 85分';
+                    $message .= $cr . '數學: 75分';
+                    $message .= $cr . '英文: 25分';
+                    $message .= $cr . '自然: 100分';
                     // Retrieve the scores for today's date
-                    $scores = $student->scores()->whereDate('created_at', now())->get();
-                    foreach ($scores as $score) {
-                        $message .= $cr . $score->subject_id . ' 分數: ' . $score->score;
-                    }
+                    // $scores = $student->scores()->whereDate('created_at', now())->get();
+                    // foreach ($scores as $score) {
+                    //     $message .= $cr . $score->subject_id . ' 分數: ' . $score->score;
+                    // }
 
                     $message .= $cr . '請您確認後點擊下列連擊簽名 並提供您的寶貴回覆';
                     $message .= $cr . $url;
