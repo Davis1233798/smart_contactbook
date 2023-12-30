@@ -32,10 +32,6 @@ class Student extends Model
     {
         return $this->hasMany(ParentInfo::class);
     }
-    public function parentContacts()
-    {
-        return $this->hasMany(ParentInfo::class);
-    }
     public function contactBooks()
     {
         return $this->hasMany(ContactBook::class);
@@ -48,4 +44,5 @@ class Student extends Model
     {
         return $this->hasMany(StudentNotification::class);
     }
+
 }

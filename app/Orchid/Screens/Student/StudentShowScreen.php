@@ -115,7 +115,7 @@ class StudentShowScreen extends Screen
 
                     return Button::make()
                         ->icon('trash')
-                        ->confirm(__('translate.確定刪除').$student->name.__('translate.此動作無法復原'))
+                        ->confirm(__('translate.確定刪除') . $student->name . __('translate.此動作無法復原'))
                         ->method('methodRemove', [
                             'id' => $student->id,
                         ]);
@@ -124,7 +124,7 @@ class StudentShowScreen extends Screen
     }
     public function methodSendContactBook(): RedirectResponse
     {
-        Log::info(request());
+
 
         return redirect()->route('platform.students.list');
     }
