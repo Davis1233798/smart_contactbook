@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ParentInfo;
 use App\Models\StudentParentSignContactBook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ParentResponseController extends Controller
 {
@@ -20,6 +21,7 @@ class ParentResponseController extends Controller
 
     public function submitResponse(Request $request)
     {
+        Log::info($request->all());
         // 驗證輸入數據
         $validated = $request->validate([
             'parent_id' => 'required|exists:parent_infos,id',
