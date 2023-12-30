@@ -1,8 +1,10 @@
 {{-- resources/views/response.blade.php --}}
 <!DOCTYPE html>
 <html>
-<head>
+<head>    
     <title>留言板</title>
+    感謝您撥空簽到，今日聯絡簿已成功簽名。
+    歡迎在下方留言與老師交流，謝謝
 </head>
 <body>
     <h1>留言板</h1>
