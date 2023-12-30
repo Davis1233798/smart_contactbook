@@ -82,7 +82,7 @@ class LineNotifySendAction
 
                     $record = new StudentParentSignContactBook();
                     $record->student_id = $student->id;
-                    $record->contact_book_id = $student->contactBooks->id;
+                    $record->contact_book_id =  $contactBook->id;
                     $record->url = $url;
                     $record->content = $message;
                     $record->save();
