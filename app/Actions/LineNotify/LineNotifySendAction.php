@@ -80,12 +80,12 @@ class LineNotifySendAction
                     $message .= $cr . '請您確認後點擊下列連擊簽名 並提供您的寶貴回覆';
                     $message .= $cr . $url;
 
-                    $record = new StudentParentSignContactBook();
-                    $record->student_id = $student->id;
-                    $record->contact_book_id =  $contactBook->id;
-                    $record->url = $url;
-                    $record->content = $message;
-                    $record->save();
+                    // $record = new StudentParentSignContactBook();
+                    // $record->student_id = $student->id;
+                    // $record->contact_book_id =  $contactBook->id;
+                    // $record->url = $url;
+                    // $record->content = $message;
+                    // $record->save();
                     foreach ($student->parentInfos as $parentInfo) {
                         if ($parentInfo->line_token) {
                             try {
