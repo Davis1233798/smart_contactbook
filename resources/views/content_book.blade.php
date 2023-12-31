@@ -5,8 +5,9 @@
         <div class="card">
             <div class="row">
                 <div class="col-md-3"> <!-- Adjusted size -->
-                    <img src="{{ asset('storage/ocr.png') }}" alt="聯絡簿發送示意圖" class="card-img-top">
+                   <img src="https://i.imgur.com/ltkHdGf.png"alt="OCR 掃描示意圖" class="card-img-top">
                 </div>
+                
                 <div class="col-md-9"> <!-- Adjusted size -->
                     <div class="card-body">
                         <h2 class="card-title">智慧聯絡簿</h2>
@@ -20,7 +21,7 @@
     <div class="card">
         <div class="row">
             <div class="col-md-3"> <!-- Adjusted size -->
-                <img src="{{ asset('storage/conn.png') }}" alt="親師溝通專頁示意圖" class="card-img-top">
+                <img src="https://i.imgur.com/mBZUBGw.png" alt="親師溝通專頁示意圖" class="card-img-top">
             </div>
             <div class="col-md-9"> <!-- Adjusted size -->
                 <div class="card-body">
