@@ -24,16 +24,6 @@ class ContactBook extends Model
     {
         return $this->hasMany(StudentNotification::class);
     }
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
-    public function score()
-    {
-        return $this->hasMany(Score::class);
-    }
-    public function Communication()
-    {
-        return $this->hasMany(Communication::class);
-    }
+
+
 }
