@@ -1,9 +1,12 @@
 @guest
    
 
-    <p class="small text-center mb-1 px-5">
+    <p class="small text-center mb-1 px-5 mt-3">
         {{ __('The application code is published under the MIT license.') }}
     </p>
+ 
+
+
 
    
 @else
