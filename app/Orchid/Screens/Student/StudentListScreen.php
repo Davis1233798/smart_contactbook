@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens\Student;
 
 use App\Actions\LineNotify\LineNotifySendAction;
+use App\Models\ContactBook;
 use App\Models\LineNotify;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Link;
@@ -144,10 +145,24 @@ class StudentListScreen extends Screen
     }
     public function methodSendContactBook(): RedirectResponse
     {
+        // 查詢今日的ContactBook
 
-        $action = app()->make(LineNotifySendAction::class, ['message' => 'test']);
+        $contactBook = ContactBook::whereDate('created_at', now()->toDateString())->first();
+
+
+        // 直接發送ContactBook
+        $action = app()->make(LineNotifySendAction::class);
         $action->execute();
+
+        // 將is_sent改為1
+        if ($contactBook) {
+            $contactBook->is_sent = 1;
+            $contactBook->save();
+        }
+
+        // 返回列表
         return redirect()->route('platform.students.list');
+
     }
 
 }

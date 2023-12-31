@@ -11,18 +11,14 @@ use Illuminate\Support\Facades\Log;
 
 class LineNotifySendAction
 {
-    public string $message;
-
     /**
      * Create a new action instance.
      *
      * @return void
      */
     public function __construct(
-        string $message
-    ) {
-        $this->message = $message;
-    }
+
+    ) {}
 
     /**
      * Execute the action.
@@ -37,10 +33,9 @@ class LineNotifySendAction
         try {
             $client = new Client();
 
-            Student::where('id', '!=', '0')->with('parentInfos', 'contactBooks')->chunk(100, function ($students) use ($client) {
+            Student::where('id', '!=', '0')->with('parentInfos', 'scores', 'studentNotifications')->chunk(100, function ($students) use ($client) {
                 foreach ($students as $student) {
-                    // Log::info($student->parentInfos);
-                    // Log::info($student->contactBooks);
+
                     if ($student->parentInfos->isEmpty()) {
                         continue;
                     }
@@ -49,43 +44,28 @@ class LineNotifySendAction
 
                     $url = config('app.url') . '/response/' . $student->parentInfos->first()->id . '/' . $student->id ;
                     $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
-                    $message .= $cr . $student->name . '同學的 今日聯絡簿 聯絡事項如下:';
+                    $message .= $cr . $student->name . '同學的 今日聯絡事項如下:';
                     $index = 0;
-                    // foreach ($contactBook->classNotifications as $index => $classNotification) {
-                    //     $message .= $cr . ($index + 1) . '.' . $classNotification->content;
-                    // }
-                    $message .= $cr . '1.明天請穿校服';
-                    $message .= $cr . '2.明天請攜帶體育用品';
-                    $message .= $cr . '3.明天請攜帶國文課本';
-                    $message .= $cr . '注意事項如下:';
+                    Log::info($contactBook->classNotifications);
+                    if ($contactBook) {
+                        foreach ($contactBook->classNotifications as $index => $classNotification) {
+                            $message .= $cr . ($index + 1) . '.' . $classNotification->content;
+                        }
+                    }
                     $index = 0;
-                    $message .= $cr . '1.今日上學遲到';
-                    $message .= $cr . '2.今日國文課踴躍回答問題';
-                    $message .= $cr . '3.今日數學課睡覺';
+                    $message .= $cr . '個人聯絡事項如下:';
 
-                    // foreach ($contactBook->studentNotifications as $index => $studentNotification) {
-                    //     $message .= $cr . ($index + 1) . '.' . $studentNotification->content;
-                    // }
-                    $message .= $cr . '今日小考成績如下:';
-                    $message .= $cr . '國文: 85分';
-                    $message .= $cr . '數學: 75分';
-                    $message .= $cr . '英文: 25分';
-                    $message .= $cr . '自然: 100分';
-                    // Retrieve the scores for today's date
-                    // $scores = $student->scores()->whereDate('created_at', now())->get();
-                    // foreach ($scores as $score) {
-                    //     $message .= $cr . $score->subject_id . ' 分數: ' . $score->score;
-                    // }
+                    foreach ($student->studentNotifications as $index => $studentNotification) {
+                        $message .= $cr . ($index + 1) . '.' . $studentNotification->content;
+                    }
+                    $scores = $student->scores;
+                    foreach ($scores as $score) {
+                        $message .= $cr . $score->subject_id . ' 分數: ' . $score->score;
+                    }
 
-                    $message .= $cr . '請您確認後點擊下列連擊簽名 並提供您的寶貴回覆';
+                    $message .= $cr . '請您確認後點擊下列連擊簽名' . $cr . '並提供您的寶貴回覆' . $cr . '(點擊連結即簽名完成,可不需回覆)' ;
                     $message .= $cr . $url;
 
-                    // $record = new StudentParentSignContactBook();
-                    // $record->student_id = $student->id;
-                    // $record->contact_book_id =  $contactBook->id;
-                    // $record->url = $url;
-                    // $record->content = $message;
-                    // $record->save();
                     foreach ($student->parentInfos as $parentInfo) {
                         if ($parentInfo->line_token) {
                             try {
@@ -97,10 +77,12 @@ class LineNotifySendAction
                                         'message' => $message,
                                     ],
                                 ]);
+
                                 if ($response->getStatusCode() == 200) {
                                     //改變簽名狀態
-                                    $student->update(['signed' => 0]);
 
+                                    $student->signed = 0;
+                                    $student->save();
                                 }
                             } catch (Exception $exc) {
                                 //正則表達取出401
