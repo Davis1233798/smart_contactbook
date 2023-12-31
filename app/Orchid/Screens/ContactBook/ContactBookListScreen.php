@@ -45,7 +45,7 @@ class ContactBookListScreen extends Screen
                 TD::make('created_at', 'Created At')
                     ->sort()
                     ->render(function (ContactBook $contactBook) {
-                        return $contactBook->created_at->toDateTimeString();
+                        return $contactBook->created_at ? $contactBook->created_at->toDateTimeString() : '';
                     }),
 
             ]),
