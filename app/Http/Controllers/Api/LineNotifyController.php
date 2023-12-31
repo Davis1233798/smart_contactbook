@@ -19,9 +19,9 @@ class LineNotifyController extends Controller
             Log::info($res);
             Log::info($res['code']);
             $client = new Client();
-            $callbackUri = config('app.url').'/api/callback';
+            $callbackUri = config('app.url') . '/api/callback';
             Log::info($callbackUri);
-            Log::info(config('app.line_id').'|'.config('app.line_secret'));
+            Log::info(config('app.line_id') . '|' . config('app.line_secret'));
             $response = $client->request('POST', 'https://notify-bot.line.me/oauth/token', [
                 'form_params' => [
                     'grant_type' => 'authorization_code',
@@ -40,10 +40,10 @@ class LineNotifyController extends Controller
             $parent->update(['line_token' => $accessToken]);
 
             $client = new Client();
-            $message = '【'.config('app.url').'】綁定完成';
+            $message = '【' . config('app.url') . '】綁定完成';
             $response = $client->request('POST', 'https://notify-api.line.me/api/notify', [
                 'headers' => [
-                    'Authorization' => 'Bearer '. $accessToken,
+                    'Authorization' => 'Bearer ' . $accessToken,
                 ],
                 'form_params' => [
                     'message' => $message,
@@ -61,9 +61,9 @@ class LineNotifyController extends Controller
         try {
             $res = $request->all();
             $client = new Client();
-            $callbackUri = config('app.url').'/api/system';
+            $callbackUri = config('app.url') . '/api/system';
             Log::info(config('app.url'));
-            Log::info(config('app.line_notify_system_client_id').'|'.config('app.line_notify_system_client_secret'));
+            Log::info(config('app.line_notify_system_client_id') . '|' . config('app.line_notify_system_client_secret'));
             $response = $client->request('POST', 'https://notify-bot.line.me/oauth/token', [
                 'form_params' => [
                     'grant_type' => 'authorization_code',
@@ -83,10 +83,10 @@ class LineNotifyController extends Controller
             $lineNotify->role = 'system';
             $lineNotify->save();
             $client = new Client();
-            $message = '【'.env('APP_URL').'】綁定完成';
+            $message = '【' . env('APP_URL') . '】綁定完成';
             $response = $client->request('POST', 'https://notify-api.line.me/api/notify', [
                 'headers' => [
-                    'Authorization' => 'Bearer '. $accessToken,
+                    'Authorization' => 'Bearer ' . $accessToken,
                 ],
                 'form_params' => [
                     'message' => $message,

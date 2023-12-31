@@ -53,7 +53,7 @@ class LineNotifySendAction
                         }
                     }
                     $index = 0;
-                    $message .= $cr . '個人聯絡事項如下:';
+                    $message .= $cr . '個人通知事項如下:';
 
                     foreach ($student->studentNotifications as $index => $studentNotification) {
                         $message .= $cr . ($index + 1) . '.' . $studentNotification->content;

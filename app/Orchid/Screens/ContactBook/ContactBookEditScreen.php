@@ -21,14 +21,14 @@ class ContactBookEditScreen extends Screen
     {
         $this->contactBook = $contactBook;
 
-        // 获取所有学生
-        $students = Student::all()->pluck('name', 'id'); // 假设学生有 id 和 name 字段
+        // 取得所有學生
+        $students = Student::all()->pluck('name', 'id'); // 假設學生有 id 和 name 欄位
 
         return [
             'contactBook' => $contactBook,
             'student_notifications' => $contactBook->student ? $contactBook->student->notifications : null,
             'class_notifications' => $contactBook->student ? $contactBook->student->classnotifications : null,
-            'students' => $students, // 添加学生列表
+            'students' => $students, // 新增學生列表
         ];
     }
 
@@ -36,7 +36,7 @@ class ContactBookEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Button::make('Save')
+            Button::make('儲存')
                 ->icon('check')
                 ->method('save'),
         ];
@@ -48,32 +48,13 @@ class ContactBookEditScreen extends Screen
         return [
             Layout::rows([
 
-                Group::make([
-                    FieldsMatrix::make('student_notifications')
-                        ->title('學生通知')
-                        ->columns(['學生' => 'student_id', '內容' => 'content'])
-                        ->fields([
-                            'student_id' => Select::make('student_id')
-                                ->options($this->query($this->contactBook)['students']) // 使用学生列表
-                            ,
-                            'content' => TextArea::make('content'),
-                        ])
-                        ->value($this->contactBook ? $this->contactBook->studentNotifications : [])
-                        ->addRows(),
-                ]),
-                Group::make([
-                    FieldsMatrix::make('class_notifications')
-                        ->title('班級通知')
-                        ->columns(['內容' => 'content'])
-                        ->value($this->contactBook ? $this->contactBook->classNotifications : [])
-                        ->addRows(),
-                ]),
+
+
 
 
                 TextArea::make('contactBook.content')
-                    ->title('其他內容'),
-                TextArea::make('contactBook.reply')
-                    ->title('回覆事項'),
+                    ->title('聯絡事項'),
+
                 TextArea::make('contactBook.remark')
                     ->title('備註'),
             ]),
@@ -87,14 +68,14 @@ class ContactBookEditScreen extends Screen
 
     public function description(): string
     {
-        return 'Edit a specific contact book record';
+        return '編輯特定聯絡簿記錄';
     }
 
     public function save(ContactBook $contactBook)
     {
 
 
-        Toast::info('Contact book record saved.');
+        Toast::info('聯絡簿記錄已儲存。');
 
         return redirect()->route('platform.contactbook.list');
     }

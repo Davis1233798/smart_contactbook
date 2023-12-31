@@ -38,22 +38,16 @@ class ContactBookListScreen extends Screen
                 TD::make('id', 'ID')
                     ->sort()
                     ->cantHide(),
-                TD::make('student_id', 'Student ID')
-                    ->sort(),
-                TD::make('communication', 'Communication'),
+
                 TD::make('content', 'Content'),
-                TD::make('reply', 'Reply'),
+
                 TD::make('remark', 'Remark'),
                 TD::make('created_at', 'Created At')
                     ->sort()
                     ->render(function (ContactBook $contactBook) {
                         return $contactBook->created_at->toDateTimeString();
                     }),
-                TD::make('updated_at', 'Updated At')
-                    ->sort()
-                    ->render(function (ContactBook $contactBook) {
-                        return $contactBook->updated_at->toDateTimeString();
-                    }),
+
             ]),
         ];
     }

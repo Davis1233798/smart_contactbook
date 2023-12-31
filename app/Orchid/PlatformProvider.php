@@ -73,6 +73,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('聯絡簿管理')
                 ->icon('bs.box-arrow-up-right')
                 ->route('platform.contactbook.list'),
+
             Menu::make('學生通知管理')
                 ->title('學生通知管理')
                 ->icon('bs.box-arrow-up-right')

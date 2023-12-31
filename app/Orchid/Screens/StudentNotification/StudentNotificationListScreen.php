@@ -5,6 +5,9 @@ namespace App\Orchid\Screens\StudentNotification;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Actions\Link;
 use App\Models\StudentNotification;
+use Orchid\Screen\Layout;
+use Orchid\Screen\TD;
+use Orchid\Support\Facades\Layout as FacadesLayout;
 
 class StudentNotificationListScreen extends Screen
 {
@@ -44,7 +47,7 @@ class StudentNotificationListScreen extends Screen
         return [
             Link::make('新增通知')
                 ->icon('plus')
-                ->route('platform.studentnotification.edit')
+                ->route('platform.student-notification.create')
         ];
     }
 
@@ -58,6 +61,22 @@ class StudentNotificationListScreen extends Screen
 
         return [
 
+            FacadesLayout::table('notifications', [
+                TD::make('id', 'ID')
+                    ->sort()
+                    ->cantHide(),
+                TD::make('學生姓名', 'Student Name')
+                    ->sort()
+                    ->cantHide()
+                    ->render(function (StudentNotification $notification) {
+                        return $notification->student->name;
+                    }),
+                TD::make('content', 'Content'),
+
+
+
+
+            ]),
         ];
     }
 }
