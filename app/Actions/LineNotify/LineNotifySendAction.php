@@ -46,7 +46,7 @@ class LineNotifySendAction
                     $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
                     $message .= $cr . $student->name . '同學的 今日聯絡事項如下:';
                     $index = 0;
-                    Log::info($contactBook->classNotifications);
+
                     if ($contactBook) {
                         foreach ($contactBook->classNotifications as $index => $classNotification) {
                             $message .= $cr . ($index + 1) . '.' . $classNotification->content;
