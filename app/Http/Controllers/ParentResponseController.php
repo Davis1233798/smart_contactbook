@@ -25,7 +25,6 @@ class ParentResponseController extends Controller
     public function submitResponse(Request $request)
     {
 
-
         // 創建或更新資料庫記錄
 
         $record = StudentParentSignContactBook::updateOrCreate(
