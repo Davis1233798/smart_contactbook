@@ -40,7 +40,7 @@ class LineNotifyController extends Controller
             $parent->update(['line_token' => $accessToken]);
 
             $client = new Client();
-            $message = '【' . config('app.url') . '】綁定完成';
+            $message = '【' . config('app.name') . '】綁定完成';
             $response = $client->request('POST', 'https://notify-api.line.me/api/notify', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken,
