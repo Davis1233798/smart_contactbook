@@ -11,7 +11,8 @@ class ParentResponseController extends Controller
 {
     public function showResponseForm($parent_id)
     {
-        $parentInfo =ParentInfo::with('student')->findOrFail($parent_id)->first();        
+        $parentInfo =ParentInfo::find($parent_id);
+        $parentInfo->load('student');        
         $parentInfo->student->signed = 1;
         $parentInfo->student->save();
 

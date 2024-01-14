@@ -44,5 +44,9 @@ class Student extends Model
     {
         return $this->hasMany(StudentNotification::class);
     }
+    public function studentParentSignContactBooks()
+    {
+        return $this->hasMany(StudentParentSignContactBook::class);
+    }
 
 }

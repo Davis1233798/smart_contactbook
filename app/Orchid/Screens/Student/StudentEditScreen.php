@@ -29,8 +29,10 @@ class StudentEditScreen extends Screen
      */
     public function query(Student $student): array
     {
-        $student->load('schoolClass')
-            ->load('parentInfos');
+        $student
+        ->load('schoolClass')
+        ->load('parentInfos')
+        ->load('studentParentSignContactBooks');
         $this->student = $student;
         return [
             'student' => $student,
@@ -96,6 +98,21 @@ class StudentEditScreen extends Screen
                 ]),
 
             ])->title(__('家長資訊')),
+            //昨日家長聯絡簿回覆事項
+            Layout::rows([
+                Group::make([
+                    Matrix::make('studentParentSignContactBooks')
+                        ->columns([
+                         '回覆事項' => 'content',
+                         '回覆時間' => 'created_at',
+                         '回覆人' => 'parent_name',
+                         '回覆人關係' => 'parent_relation',
+                         '回覆人電話' => 'parent_phone',])
+                        ->value($this->student->studentParentSignContactBooks->values())
+                        ->enableAdd(false),
+                ]),
+
+            ])->title(__('昨日家長聯絡簿回覆事項')),
         ];
     }
 
