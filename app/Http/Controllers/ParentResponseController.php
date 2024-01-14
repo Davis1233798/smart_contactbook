@@ -11,10 +11,7 @@ class ParentResponseController extends Controller
 {
     public function showResponseForm($parent_id)
     {
-        Log::info('into showResponseForm');
-        Log::info($parent_id);
-        ParentInfo::with('student')->findOrFail($parent_id)->first();
-        $parentInfo = ParentInfo::findOrFail($parent_id)->with('student')->first();
+        $parentInfo =ParentInfo::with('student')->findOrFail($parent_id)->first();        
         $parentInfo->student->signed = 1;
         $parentInfo->student->save();
 
@@ -24,9 +21,7 @@ class ParentResponseController extends Controller
 
     public function submitResponse(Request $request)
     {
-
         // 創建或更新資料庫記錄
-
         $record = StudentParentSignContactBook::updateOrCreate(
             [  'parent_infos_id' => $request->parent_id,
                 'reply' => $request->message,
