@@ -16,7 +16,7 @@ class ParentResponseController extends Controller
         $parentInfo->student->signed = 1;
         $parentInfo->student->save();
 
-        // 可以加入更多邏輯，例如獲取學生信息等
+        // 可以加入更多邏輯，例如獲取學生信息等 
         return view('response', ['parentInfo' => $parentInfo]);
     }
 
