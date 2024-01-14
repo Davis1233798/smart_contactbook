@@ -63,7 +63,7 @@ class LineNotifySendAction
                         $message .= $cr . $score->subject_id . ' 分數: ' . $score->score;
                     }
 
-                    $message .= $cr . '請您確認後點擊下列連擊簽名' . $cr . '並提供您的寶貴回覆' . $cr . '(點擊連結即簽名完成,可不需回覆)' ;
+                    $message .= $cr . '請您確認後點擊下列連結簽名' . $cr . '並提供您的寶貴回覆' . $cr . '(點擊連結即簽名完成,可不需回覆)' ;
                     $message .= $cr . $url;
 
                     foreach ($student->parentInfos as $parentInfo) {

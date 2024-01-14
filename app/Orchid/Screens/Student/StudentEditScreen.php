@@ -48,6 +48,10 @@ class StudentEditScreen extends Screen
     public function commandBar(): array
     {
         return [
+            //回上一頁
+            Button::make(__('回上一頁'))
+                ->icon('arrow-left')
+                ->method('goBack'),
             Button::make('保存')
                 ->icon('check')
                 ->method('save'),
@@ -156,5 +160,9 @@ class StudentEditScreen extends Screen
     public function methodCreateContactBook()
     {
         return redirect()->route('platform.contactbooks.contactbook.edit', ['student_id' => $this->student->id]);
+    }
+    public function methodGoBack()
+    {
+        return redirect()->route('platform.students.list');
     }
 }

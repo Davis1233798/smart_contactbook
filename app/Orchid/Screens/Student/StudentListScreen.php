@@ -79,7 +79,8 @@ class StudentListScreen extends Screen
                         }),
                     TD::make('actions', '操作')
                         ->render(function (Student $student) {
-                            return Link::make('編輯')
+                            return Link::make('')
+                                ->icon('settings')
                                 ->route('platform.students.edit', $student);
                         }),
                     TD::make(__('Qrcode'))
@@ -109,12 +110,12 @@ class StudentListScreen extends Screen
             $student->delete();
 
             // 顯示訊息
-            Toast::info(__('translate.刪除成功'));
+            Toast::info(__('刪除成功'));
 
             // 返回列表
             return redirect()->route('platform.students.list');
         } catch (\Exception $e) {
-            Toast::error(__('translate.發生錯誤') . $e->getMessage());
+            Toast::error(__('發生錯誤') . $e->getMessage());
 
             throw $e;
         }
@@ -129,7 +130,7 @@ class StudentListScreen extends Screen
                 ->render(function (Student $student) {
                     return Button::make()
                         ->icon('trash')
-                        ->confirm(__('translate.確定刪除') . $student->name . __('translate.此動作無法復原'))
+                        ->confirm(__('確定刪除') . $student->name . __('此動作無法復原'))
                         ->method('methodRemove', [
                             'id' => $student->id,
                         ]);
@@ -140,9 +141,7 @@ class StudentListScreen extends Screen
     public function methodSendContactBook(): RedirectResponse
     {
         // 查詢今日的ContactBook
-
         $contactBook = ContactBook::whereDate('created_at', now()->toDateString())->first();
-
 
         // 直接發送ContactBook
         $action = app()->make(LineNotifySendAction::class);

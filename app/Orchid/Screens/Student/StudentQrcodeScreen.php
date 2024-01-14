@@ -57,7 +57,7 @@ class StudentQrcodeScreen extends Screen
     {
         return [
             //回上一頁
-            Link::make(__('translate.回上一頁'))
+            Link::make(__('回上一頁'))
                 ->icon('action-undo')
                 ->route('platform.students.list'),
         ];
@@ -96,13 +96,12 @@ class StudentQrcodeScreen extends Screen
             $student->delete();
 
             // 顯示訊息
-            Toast::info(__('translate.刪除成功'));
+            Toast::info(__('刪除成功'));
 
             // 返回列表
             return redirect()->route('platform.students.list');
         } catch (\Exception $e) {
-            Toast::error(__('translate.發生錯誤') . $e->getMessage());
-
+            Toast::error(__('發生錯誤') . $e->getMessage());
             throw $e;
         }
     }
@@ -117,7 +116,7 @@ class StudentQrcodeScreen extends Screen
 
                     return Button::make()
                         ->icon('trash')
-                        ->confirm(__('translate.確定刪除').$student->name.__('translate.此動作無法復原'))
+                        ->confirm(__('確定刪除').$student->name.__('此動作無法復原'))
                         ->method('methodRemove', [
                             'id' => $student->id,
                         ]);
@@ -126,8 +125,6 @@ class StudentQrcodeScreen extends Screen
     }
     public function methodSendContactBook(): RedirectResponse
     {
-        Log::info(request());
-
         return redirect()->route('platform.students.list');
     }
 
