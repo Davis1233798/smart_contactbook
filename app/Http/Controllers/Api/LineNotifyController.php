@@ -49,7 +49,7 @@ class LineNotifyController extends Controller
                     'message' => $message,
                 ]
             ]);
-            return redirect()->route('platform.students.list');
+            return response()->json(['success' => true]);
         } catch (Exception $exc) {
             Log::error($exc);
             throw $exc;

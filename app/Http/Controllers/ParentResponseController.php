@@ -30,7 +30,6 @@ class ParentResponseController extends Controller
         );
 
         // 如果需要，進行其他處理
-
-        echo "<script>window.close();</script>";
+        return "<script>window.close();</script>";
     }
 }
