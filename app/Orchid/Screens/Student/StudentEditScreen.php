@@ -103,11 +103,11 @@ class StudentEditScreen extends Screen
                 Group::make([
                     Matrix::make('studentParentSignContactBooks')
                         ->columns([
-                         '回覆事項' => 'content',
+                         '回覆' => 'reply',
                          '回覆時間' => 'created_at',
-                         '回覆人' => 'parent_name',
-                         '回覆人關係' => 'parent_relation',
-                         '回覆人電話' => 'parent_phone',])
+                         '回覆內容'=>'content',
+                         
+                        ])
                         ->value($this->student->studentParentSignContactBooks->values())
                         ->enableAdd(false),
                 ]),

@@ -49,7 +49,7 @@ class LineNotifyController extends Controller
                     'message' => $message,
                 ]
             ]);
-            return response()->json(['success' => true]);
+            return response()->json(['綁定成功']);
         } catch (Exception $exc) {
             Log::error($exc);
             throw $exc;

@@ -56,7 +56,10 @@ class StudentQrcodeScreen extends Screen
     public function commandBar(): array
     {
         return [
-
+            //回上一頁
+            Link::make(__('translate.回上一頁'))
+                ->icon('action-undo')
+                ->route('platform.students.list'),
         ];
     }
 

@@ -65,20 +65,16 @@ class StudentListScreen extends Screen
             Layout::table(
                 'students',
                 array_merge(
-                    [
-                    TD::make('id', 'ID')
-                        ->sort()
-                        ->cantHide(),
-                    TD::make('seat_number', '座號')
-                        ->sort(),
+                    [                 
                     TD::make('school_number', '學號')
+                        ->sort(),
+                    TD::make('seat_number', '座號')
                         ->sort(),
                     TD::make('name', '姓名')
                         ->sort(),
                     TD::make('contact_book', '聯絡簿')
                         ->sort()
                         ->render(function (Student $student) {
-
                             return $student->signed === 1 ? '<span class="text-success">已簽</span>' : '<span class="text-danger">未簽</span>';
                         }),
                     TD::make('actions', '操作')
@@ -86,17 +82,15 @@ class StudentListScreen extends Screen
                             return Link::make('編輯')
                                 ->route('platform.students.edit', $student);
                         }),
-
                     TD::make(__('Qrcode'))
                         ->cantHide()
                         ->align(TD::ALIGN_CENTER)
                         ->render(function (Student $student) {
                             return Link::make('')
                                 ->icon('qr-code')
-                            ->route('platform.students.qrcode', $student);
+                                ->route('platform.students.qrcode', $student)
+                                ->class('bg-yellow-200'); // Add this line to set the background color
                         }),
-
-
                     ],
                     $this->actionButtons(),
                 )
