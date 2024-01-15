@@ -204,6 +204,7 @@ return [
 
     'icons' => [
         'bs'  => \Orchid\Support\BootstrapIconsPath::getFolder(),
+        'orc' => \Orchid\IconPack\Path::getFolder(),
     ],
 
     /*

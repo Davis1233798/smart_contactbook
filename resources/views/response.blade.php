@@ -30,7 +30,7 @@
                 <div class="alert alert-info">
                     歡迎在下方留言與老師交流，謝謝
                 </div>
-                <form action="{{ url( '/response/submit/$parentInfo->id ') }}" method="POST">
+                <form action="{{ url('/response/submit/' . $parentInfo->id) }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <textarea name="message" rows="4" cols="50" class="form-control" placeholder="在這裡留下您的訊息..."></textarea>

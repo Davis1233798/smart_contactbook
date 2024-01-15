@@ -80,7 +80,7 @@ class StudentListScreen extends Screen
                     TD::make('actions', '操作')
                         ->render(function (Student $student) {
                             return Link::make('')
-                                ->icon('settings')
+                                ->icon('note')
                                 ->route('platform.students.edit', $student);
                         }),
                     TD::make(__('Qrcode'))
