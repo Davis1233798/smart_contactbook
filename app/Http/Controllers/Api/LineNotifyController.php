@@ -48,54 +48,11 @@ class LineNotifyController extends Controller
                 'form_params' => [
                     'message' => $message,
                 ]
-            ]);
-            return response()->json(['綁定成功']);
+            ]);            
+            return view('success');
         } catch (Exception $exc) {
             Log::error($exc);
             throw $exc;
         }
-    }
-
-    public function system(Request $request)
-    {
-        try {
-            $res = $request->all();
-            $client = new Client();
-            $callbackUri = config('app.url') . '/api/system';
-            Log::info(config('app.url'));
-            Log::info(config('app.line_notify_system_client_id') . '|' . config('app.line_notify_system_client_secret'));
-            $response = $client->request('POST', 'https://notify-bot.line.me/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'authorization_code',
-                    'redirect_uri' => $callbackUri,
-                    'client_id' => config('app.line_notify_system_client_id'),
-                    'client_secret' => config('app.line_notify_system_client_secret'),
-                    'code' => $res['code'],
-                ],
-            ]);
-
-            $accessToken = json_decode($response->getBody(), true)['access_token'];
-            //紀錄access token
-            $lineNotify = new LineNotify();
-            //紀錄發送訊息
-            // $lineNotifyMessage = new LineNotifyMessage;
-            $lineNotify->code = $accessToken;
-            $lineNotify->role = 'system';
-            $lineNotify->save();
-            $client = new Client();
-            $message = '【' . env('APP_URL') . '】綁定完成';
-            $response = $client->request('POST', 'https://notify-api.line.me/api/notify', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken,
-                ],
-                'form_params' => [
-                    'message' => $message,
-                ]
-            ]);
-            return redirect()->route('platform.systems.line.system');
-        } catch (Exception $exc) {
-            Log::error($exc);
-            throw $exc;
-        }
-    }
+    }   
 }
