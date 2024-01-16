@@ -20,8 +20,9 @@ class ParentResponseController extends Controller
         return view('response', ['parentInfo' => $parentInfo]);
     }
 
-    public function submitResponse(Request $request)
+    public function submitResponse($parent_id, Request $request)
     {
+    
         Log::info('submitResponse');
         Log::info($request);
         // 創建或更新資料庫記錄
@@ -32,6 +33,6 @@ class ParentResponseController extends Controller
         );
 
         // 如果需要，進行其他處理
-        return "<script>window.close();</script>";
+        return view('response_success');
     }
 }
