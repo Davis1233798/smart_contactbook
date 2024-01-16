@@ -17,18 +17,16 @@ class ParentResponseController extends Controller
         $parentInfo->student->save();
 
         // 可以加入更多邏輯，例如獲取學生信息等 
-        return view('response', ['parentInfo' => $parentInfo]);
+        return view('response', ['parentInfo' => $parentInfo, 'student' => $parentInfo->student]);
     }
 
-    public function submitResponse($parent_id, Request $request)
+    public function submitResponse($parent_id,$student_id, Request $request)
     {
-    
-        Log::info('submitResponse');
-        Log::info($request);
-        Log::info($parent_id);
         // 創建或更新資料庫記錄
         $record = StudentParentSignContactBook::updateOrCreate(
-            [  'parent_infos_id' => $parent_id,
+            [  
+                'student_id' => $student_id,
+                'parent_infos_id' => $parent_id,
                 'reply' => $request->message,
                 'sign_time' => now(),]
         );

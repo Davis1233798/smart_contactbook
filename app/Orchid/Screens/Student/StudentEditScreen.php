@@ -31,9 +31,9 @@ class StudentEditScreen extends Screen
     public function query(Student $student): array
     {
         $student
-        ->load('schoolClass')
-        ->load('parentInfos')
-        ->load('studentParentSignContactBooks');
+            ->load('schoolClass')
+            ->load('parentInfos')
+            ->load('studentParentSignContactBooks');
         $this->student = $student;
         return [
             'student' => $student,
@@ -72,7 +72,6 @@ class StudentEditScreen extends Screen
         $parentInfos = $this->student->parentInfos;
         return [
             Layout::rows([
-
                 Group::make([
                     Input::make('student.seat_number')
                     ->title('座號'),
@@ -111,7 +110,6 @@ class StudentEditScreen extends Screen
                          '回覆' => 'reply',
                          '回覆時間' => 'created_at',
                          '回覆內容'=>'content',
-                         
                         ])
                         ->value($this->student->studentParentSignContactBooks->values())
                         ->enableAdd(false),
@@ -125,8 +123,6 @@ class StudentEditScreen extends Screen
     public function save( Student $student)
     {
         try {
-            // 驗證請求數據
-           
     
             // 學生資料儲存邏輯
             if (!$student->id) {
