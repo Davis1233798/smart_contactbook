@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>提交成功</title>
+    <title>成功留言</title>
     <style>
         body {
         font-family: 'Arial', sans-serif;
@@ -49,7 +49,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>您已成功留言</h1>
+        <h1>{{$parentInfo->name}}家長您好,您的留言已成功</h1>
         <p>感謝您的回覆。</p>
     </div>
 </body>

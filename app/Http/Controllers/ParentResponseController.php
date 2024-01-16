@@ -22,6 +22,7 @@ class ParentResponseController extends Controller
 
     public function submitResponse($parent_id,$student_id, Request $request)
     {
+        $parentInfo = ParentInfo::find($parent_id);
         // 創建或更新資料庫記錄
         $record = StudentParentSignContactBook::updateOrCreate(
             [  
@@ -32,6 +33,6 @@ class ParentResponseController extends Controller
         );
 
         // 如果需要，進行其他處理
-        return view('response_success');
+        return view('response_success',['parentInfo'=>$parentInfo]);
     }
 }
