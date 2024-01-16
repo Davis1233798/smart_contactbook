@@ -57,10 +57,12 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('班級管理')
                 ->icon('bs.box-arrow-up-right')
                 ->route('platform.schools.school.list'),
+
             Menu::make('班級通知管理')
                 ->title('班級通知管理')
                 ->icon('bs.box-arrow-up-right')
-                ->route('platform.class-notification.list'),
+                ->route('platform.school-notify-content.list'),
+
             Menu::make('學生管理')
                 ->title('學生管理')
                 ->icon('bs.box-arrow-up-right')
@@ -71,10 +73,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.box-arrow-up-right')
                 ->route('platform.scores.list'),
 
-            Menu::make('課表管理')
-                ->title('課表管理')
-                ->icon('bs.box-arrow-up-right')
-                ->route('platform.subject-table.list'),
+            // Menu::make('課表管理')
+            //     ->title('課表管理')
+            //     ->icon('bs.box-arrow-up-right')
+            //     ->route('platform.subject-table.list'),
   
 
             Menu::make('學生通知管理')
