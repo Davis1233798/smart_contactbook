@@ -6,6 +6,7 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use App\Models\ContactBook;
 use App\Models\Student;
+use Illuminate\Support\Facades\Log;
 use Orchid\Screen\Layouts\Row;
 use Orchid\Screen\Fields\Label;
 
@@ -15,6 +16,8 @@ class ContactBookShowScreen extends Screen
 
     public function query(ContactBook $contactBook): array
     {
+        Log::info('ContactBookShowScreen query');
+        Log::info($contactBook);
         $contactBook->load('classNotifications', 'studentNotifications', 'schoolNotificationContents');
         $this->contactBook = $contactBook;
         return [

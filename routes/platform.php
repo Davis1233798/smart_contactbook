@@ -80,11 +80,11 @@ Route::screen('roles', RoleListScreen::class)
         ->push(__('Roles'), route('platform.systems.roles')));
 
 // Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push('Example Screen'));
+// Route::screen('example', ExampleScreen::class)
+//     ->name('platform.example')
+//     ->breadcrumbs(fn (Trail $trail) => $trail
+//         ->parent('platform.index')
+//         ->push('Example Screen'));
 
 
 
@@ -113,32 +113,18 @@ Route::screen('student/{student}/show', StudentShowScreen::class)
 Route::screen('student/{student}/qrcode', StudentQrcodeScreen::class)
     ->name('platform.students.qrcode');
 
-use App\Orchid\Screens\Score\ScoreEditScreen;
-use App\Orchid\Screens\Score\ScoreListScreen;
-
-Route::screen('scores', ScoreListScreen::class)
-    ->name('platform.scores.list');
-Route::screen('score/{score}/edit', ScoreEditScreen::class)
-    ->name('platform.scores.edit');
-Route::screen('score/create', ScoreEditScreen::class)
-    ->name('platform.scores.create');
-
-// routes/web.php
-
-
-
 use App\Orchid\Screens\ContactBook\ContactBookListScreen;
 use App\Orchid\Screens\ContactBook\ContactBookEditScreen;
 use App\Orchid\Screens\ContactBook\ContactBookShowScreen;
 
 Route::screen('contact-book', ContactBookListScreen::class)
     ->name('platform.contactbook.list');
-Route::screen('contact-book/{contact-book}/edit', ContactBookEditScreen::class)
-    ->name('platform.contactbook.edit');
-Route::screen('contact-book/{contact-book}/show', ContactBookShowScreen::class)
-    ->name('platform.contactbook.show');
+Route::screen('contact-book/edit', ContactBookEditScreen::class)
+    ->name('platform.contact-book.edit');
+Route::screen('contact-book/show', ContactBookShowScreen::class)
+    ->name('platform.contact-book.show');
 Route::screen('contact-book/create', ContactBookEditScreen::class)
-    ->name('platform.contactbook.create');
+    ->name('platform.contact-book.create');
 
 use App\Orchid\Screens\StudentNotification\StudentNotificationListScreen;
 use App\Orchid\Screens\StudentNotification\StudentNotificationEditScreen;
