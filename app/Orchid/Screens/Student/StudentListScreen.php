@@ -83,7 +83,7 @@ class StudentListScreen extends Screen
                                 ->icon('note')
                                 ->route('platform.students.edit', $student);
                         }),
-                    TD::make(__('Qrcode'))
+                    TD::make(__('QRcode'))
                         ->cantHide()
                         ->align(TD::ALIGN_CENTER)
                         ->render(function (Student $student) {
