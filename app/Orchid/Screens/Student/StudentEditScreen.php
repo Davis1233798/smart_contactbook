@@ -135,6 +135,7 @@ class StudentEditScreen extends Screen
             $parentInfosData = request()->get('parentInfos', []);
 
             foreach ($parentInfosData as $parentInfoData) {
+                $parentInfoData['line_id'] = Str::random(10); 
                 // 判斷是新增還是更新
                 if (isset($parentInfoData['id']) && !empty($parentInfoData['id'])) {
                     // 更新現有parentInfo

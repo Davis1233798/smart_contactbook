@@ -71,16 +71,16 @@ class StudentQrcodeScreen extends Screen
     public function layout(): array
     {
 
-        // $url = Cache::pull('lineNotifyUrl');
-        // Log::info('$url');
-        
+         $url = Cache::pull('lineNotifyUrl');
+        Log::info('$url');
+        Log::info($url);
         return [
             Layout::rows([
                 Link::make(__('請點擊此連結，或掃描下面 QR Code，進行綁定'))
-                    ->href($this->query->get('url') ? $$this->query->get('url') : '')
+                    ->href($url ? $url : '')
                     ->icon('link'),
                 QrCode::make('url')
-                    ->data($this->query->get('url') ? $this->query->get('url') : '')
+                    ->data($url ? $url : '')
                     ->generate(),
 
             ]),
