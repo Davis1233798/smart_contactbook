@@ -158,12 +158,12 @@ Route::screen('student-notification/create', StudentNotificationEditScreen::clas
 //     ->name('platform.class-notification.create');
 //班級通知
 
-use App\Orchid\Screens\SchoolNotifyContent\SchoolNotifyContentListScreen;
-use App\Orchid\Screens\SchoolNotifyContent\SchoolNotifyContentEditScreen;
+use App\Orchid\Screens\SchoolNotifyContent\SchoolNotifyContentList;
+use App\Orchid\Screens\SchoolNotifyContent\SchoolNotifyContentEdit;
 
-Route::screen('school-notify-content', SchoolNotifyContentListScreen::class)
+Route::screen('school-notify-content', SchoolNotifyContentList::class)
     ->name('platform.school-notify-content.list');
-Route::screen('school-notify-content/{school-notify-content}/edit', SchoolNotifyContentEditScreen::class)
+Route::screen('school-notify-content/{school-notify-content}/edit', SchoolNotifyContentEdit::class)
     ->name('platform.school-notify-content.edit');
-Route::screen('school-notify-content/create', SchoolNotifyContentEditScreen::class)
+Route::screen('school-notify-content/create', SchoolNotifyContentEdit::class)
     ->name('platform.school-notify-content.create');
