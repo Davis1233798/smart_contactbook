@@ -129,11 +129,14 @@ Route::screen('score/create', ScoreEditScreen::class)
 
 use App\Orchid\Screens\ContactBook\ContactBookListScreen;
 use App\Orchid\Screens\ContactBook\ContactBookEditScreen;
+use App\Orchid\Screens\ContactBook\ContactBookShowScreen;
 
 Route::screen('contact-book', ContactBookListScreen::class)
     ->name('platform.contactbook.list');
 Route::screen('contact-book/{contact-book}/edit', ContactBookEditScreen::class)
     ->name('platform.contactbook.edit');
+Route::screen('contact-book/{contact-book}/show', ContactBookShowScreen::class)
+    ->name('platform.contactbook.show');
 Route::screen('contact-book/create', ContactBookEditScreen::class)
     ->name('platform.contactbook.create');
 

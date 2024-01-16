@@ -65,33 +65,34 @@ class StudentListScreen extends Screen
             Layout::table(
                 'students',
                 array_merge(
-                    [                 
-                    TD::make('school_number', '學號')
-                        ->sort(),
-                    TD::make('seat_number', '座號')
-                        ->sort(),
-                    TD::make('name', '姓名')
-                        ->sort(),
-                    TD::make('contact_book', '聯絡簿')
-                        ->sort()
-                        ->render(function (Student $student) {
-                            return $student->signed === 1 ? '<span class="text-success">已簽</span>' : '<span class="text-danger">未簽</span>';
-                        }),
-                    TD::make('actions', '操作')
-                        ->render(function (Student $student) {
-                            return Link::make('')
-                                ->icon('note')
-                                ->route('platform.students.edit', $student);
-                        }),
-                    TD::make(__('QRcode'))
-                        ->cantHide()
-                        ->align(TD::ALIGN_CENTER)
-                        ->render(function (Student $student) {
-                            return Link::make('')
-                                ->icon('qr-code')
-                                ->route('platform.students.qrcode', $student)
-                                ->class('bg-yellow-200'); // Add this line to set the background color
-                        }),
+                    [
+                        TD::make('school_number', '學號')
+                            ->sort(),
+                        TD::make('seat_number', '座號')
+                            ->sort(),
+                        TD::make('name', '姓名')
+                            ->sort(),
+                        TD::make('contact_book', '聯絡簿')
+                            ->sort()
+                            ->render(function (Student $student) {
+                                return $student->signed === 1 ? '<span class="text-success">已簽</span>' : '<span class="text-danger">未簽</span>';
+                            }),
+                        TD::make('actions', '編輯')
+                            ->render(function (Student $student) {
+                                return Link::make('')
+                                    ->icon('note')
+                                    ->route('platform.students.edit', $student->id)
+                                    ->class('btn btn-sm btn-info');
+                            }),
+                        TD::make(__('QRcode'))
+                            ->cantHide()
+                            ->align(TD::ALIGN_CENTER)
+                            ->render(function (Student $student) {
+                                return Link::make('')
+                                    ->icon('qr-code')
+                                    ->route('platform.students.qrcode', $student->id)
+                                    ->class('btn btn-sm btn-primary'); // Add this line to set the background color
+                            }),
                     ],
                     $this->actionButtons(),
                 )
@@ -155,7 +156,5 @@ class StudentListScreen extends Screen
 
         // 返回列表
         return redirect()->route('platform.students.list');
-
     }
-
 }

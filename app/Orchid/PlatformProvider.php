@@ -72,6 +72,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('成績管理')
                 ->icon('bs.box-arrow-up-right')
                 ->route('platform.scores.list'),
+            Menu::make('聯絡簿管理')
+                ->title('聯絡簿管理')
+                ->icon('bs.box-arrow-up-right')
+                ->route('platform.contactbook.list'),
 
             // Menu::make('課表管理')
             //     ->title('課表管理')

@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('school_notification_contents', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('contact_book_id')->nullable()->comment('聯絡簿ID');
             $table->text('content')->nullable()->comment('內容');
-             // 建立者
-             $table->unsignedBigInteger('created_by')
-             ->comment('建立者')
-             ->nullable();
-
+            // 建立者
+            $table->unsignedBigInteger('created_by')
+                ->comment('建立者')
+                ->nullable();
+        
             // 最後更新者
             $table->unsignedBigInteger('updated_by')
                 ->comment('最後更新者')
