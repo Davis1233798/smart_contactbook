@@ -13,6 +13,7 @@ use App\Models\SchoolClass;
 use Illuminate\Support\Facades\Log;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Matrix;
+use Illuminate\Support\Str;
 
 class StudentEditScreen extends Screen
 {
@@ -121,30 +122,32 @@ class StudentEditScreen extends Screen
     }
 
 
-    public function save(Student $student)
+    public function save( Student $student)
     {
-
         try {
+            // 驗證請求數據
+           
+    
             // 學生資料儲存邏輯
             if (!$student->id) {
                 $student = new Student();
             }
             $student->fill(request()->all()['student'])->save();
-
-            // 獲取parentInfos數據
+    
+            // 獲取 parentInfos 數據
             $parentInfosData = request()->get('parentInfos', []);
-
+    
             foreach ($parentInfosData as $parentInfoData) {
-                $parentInfoData['line_id'] = Str::random(10); 
+                $parentInfoData['line_id'] = Str::random(50);
                 // 判斷是新增還是更新
                 if (isset($parentInfoData['id']) && !empty($parentInfoData['id'])) {
-                    // 更新現有parentInfo
+                    // 更新現有 parentInfo
                     $parentInfo = ParentInfo::find($parentInfoData['id']);
                     if ($parentInfo) {
                         $parentInfo->update($parentInfoData);
                     }
                 } else {
-                    // 新增parentInfo
+                    // 新增 parentInfo
                     $newParentInfo = new ParentInfo($parentInfoData);
                     $student->parentInfos()->save($newParentInfo);
                 }
@@ -154,9 +157,10 @@ class StudentEditScreen extends Screen
             // 可以選擇添加錯誤處理邏輯，例如回傳錯誤訊息
             return back()->withErrors(['msg' => '儲存失敗']);
         }
-
+    
         return redirect()->route('platform.students.list');
     }
+    
 
     public function methodCreateContactBook()
     {
