@@ -25,6 +25,7 @@ class ParentResponseController extends Controller
     
         Log::info('submitResponse');
         Log::info($request);
+        Log::info($parent_id);
         // 創建或更新資料庫記錄
         $record = StudentParentSignContactBook::updateOrCreate(
             [  'parent_infos_id' => $request->parent_id,
