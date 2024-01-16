@@ -58,6 +58,9 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.box-arrow-up-right')
                 ->route('platform.schools.school.list'),
             Menu::make('班級通知管理')
+                ->title('班級通知管理')
+                ->icon('bs.box-arrow-up-right')
+                ->route('platform.class-notification.list'),
             Menu::make('學生管理')
                 ->title('學生管理')
                 ->icon('bs.box-arrow-up-right')

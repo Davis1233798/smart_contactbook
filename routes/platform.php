@@ -146,3 +146,13 @@ Route::screen('student-notification/{student-notification}/edit', StudentNotific
     ->name('platform.student-notification.edit');
 Route::screen('student-notification/create', StudentNotificationEditScreen::class)
     ->name('platform.student-notification.create');
+
+use App\Orchid\Screens\ClassNotification\ClassNotificationListScreen;
+use App\Orchid\Screens\ClassNotification\ClassNotificationEditScreen;
+
+Route::screen('class-notification', ClassNotificationListScreen::class)
+    ->name('platform.class-notification.list');
+Route::screen('class-notification/{class-notification}/edit', ClassNotificationEditScreen::class)
+    ->name('platform.class-notification.edit');
+Route::screen('class-notification/create', ClassNotificationEditScreen::class)
+    ->name('platform.class-notification.create');
