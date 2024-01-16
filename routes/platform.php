@@ -125,16 +125,7 @@ Route::screen('score/create', ScoreEditScreen::class)
 
 // routes/web.php
 
-use App\Orchid\Screens\SubjectTable\SubjectTableListScreen;
-use App\Orchid\Screens\SubjectTable\SubjectTableEditScreen;
 
-// 課表相關路由
-Route::screen('subject-table', SubjectTableListScreen::class)
-    ->name('platform.subject-table.list');
-Route::screen('subject-table/{subject-table}/edit', SubjectTableEditScreen::class)
-    ->name('platform.subject-table.edit');
-Route::screen('subject-table/create', SubjectTableEditScreen::class)
-    ->name('platform.subject-table.create');
 
 use App\Orchid\Screens\ContactBook\ContactBookListScreen;
 use App\Orchid\Screens\ContactBook\ContactBookEditScreen;

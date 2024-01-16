@@ -68,7 +68,9 @@ class LineNotifySendAction
 
                     foreach ($student->parentInfos as $parentInfo) {
                         if ($parentInfo->line_token) {
-                            try {
+                            Log::info('into line_token');
+                            Log::info($parentInfo->line_token);
+                            // try {
                                 $response = $client->request('POST', 'https://notify-api.line.me/api/notify', [
                                     'headers' => [
                                         'Authorization' => 'Bearer ' . $parentInfo->line_token,
@@ -80,24 +82,25 @@ class LineNotifySendAction
 
                                 if ($response->getStatusCode() == 200) {
                                     //改變簽名狀態
-
+                                    Log::info('into 200');
                                     $student->signed = 0;
                                     $student->save();
                                 }
-                            } catch (Exception $exc) {
-                                //正則表達取出401
-                                if (preg_match('/"status":(\d+)/', $exc->getMessage(), $matches)) {
-                                    if ($matches[1] == '401') {
-                                        $parentInfo->update(['line_token' => null]);
-                                        $message = 'line token : ' . $parentInfo->line_token . ' 401 錯誤已刪除';
-                                        Log::error($message);
+                            // } catch (Exception $exc) {
+                            //     //正則表達取出401
+                            //     Log::error($exc);
+                            //     if (preg_match('/"status":(\d+)/', $exc->getMessage(), $matches)) {
+                            //         if ($matches[1] == '401') {
+                            //             $parentInfo->update(['line_token' => null]);
+                            //             $message = 'line token : ' . $parentInfo->line_token . ' 401 錯誤已刪除';
+                            //             Log::error($message);
 
-                                        //return 避免throw,其他情境未發生過
-                                        return;
-                                    }
-                                }
-                                throw $exc;
-                            }
+                            //             //return 避免throw,其他情境未發生過
+                            //             return;
+                            //         }
+                            //     }
+                            //     throw $exc;
+                            // }
                         }
                     }
                 }
