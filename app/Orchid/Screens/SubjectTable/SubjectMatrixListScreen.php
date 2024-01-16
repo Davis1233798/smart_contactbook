@@ -8,7 +8,7 @@ use Orchid\Support\Facades\Layout;
 use App\Models\SubjectTable;
 use Orchid\Screen\TD;
 
-class SubjectTableListScreen extends Screen
+class SubjectMatrixListScreen extends Screen
 {
     /**
      * Query data.

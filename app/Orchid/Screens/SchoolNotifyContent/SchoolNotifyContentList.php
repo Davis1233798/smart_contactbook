@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\SchoolNotifyContent;
 
 use Orchid\Screen\Screen;
 
