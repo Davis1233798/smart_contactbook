@@ -52,13 +52,13 @@ class StudentEditScreen extends Screen
             //回上一頁
             Button::make(__('回上一頁'))
                 ->icon('arrow-left')
-                ->method('goBack'),
+                ->method('methodGoBack'),
+
             Button::make('保存')
                 ->icon('check')
-                ->method('save'),
-            Button::make('新增聯絡簿')
-                ->icon('plus')
-                ->method('createContactBook'),
+                ->method('methodSave'),
+
+
         ];
     }
 
@@ -74,16 +74,16 @@ class StudentEditScreen extends Screen
             Layout::rows([
                 Group::make([
                     Input::make('student.seat_number')
-                    ->title('座號'),
-                Input::make('student.school_number')
-                    ->title('學號'),
+                        ->title('座號'),
+                    Input::make('student.school_number')
+                        ->title('學號'),
                 ]),
                 Group::make([
                     Input::make('student.name')
-                    ->title('姓名'),
-                Relation::make('student.school_class_id')
-                    ->title('班級')
-                    ->fromModel(SchoolClass::class, 'name'),
+                        ->title('姓名'),
+                    Relation::make('student.school_class_id')
+                        ->title('班級')
+                        ->fromModel(SchoolClass::class, 'name'),
                 ])
 
 
@@ -92,11 +92,12 @@ class StudentEditScreen extends Screen
                 Group::make([
                     Matrix::make('parentInfos')
                         ->columns([
-                         '姓名' => 'name',
-                         '電話' => 'phone',
-                         '職業' => 'job',
-                         '聯絡時間' => 'contact_time',
-                         '主要監護人' => 'main_guardian',])
+                            '姓名' => 'name',
+                            '電話' => 'phone',
+                            '職業' => 'job',
+                            '聯絡時間' => 'contact_time',
+                            '主要監護人' => 'main_guardian',
+                        ])
                         ->value($parentInfos->values())
                         ->enableAdd(true),
                 ]),
@@ -107,7 +108,7 @@ class StudentEditScreen extends Screen
                 Group::make([
                     Matrix::make('studentParentSignContactBooks')
                         ->columns([
-                            '回覆內容'=>'reply',
+                            '回覆內容' => 'reply',
                             '回覆時間' => 'created_at',
                         ])
                         ->value($this->student->studentParentSignContactBooks->values())
@@ -119,48 +120,54 @@ class StudentEditScreen extends Screen
     }
 
 
-    public function save( Student $student)
+    public function methodSave(Student $student)
     {
         try {
-    
             // 學生資料儲存邏輯
             if (!$student->id) {
                 $student = new Student();
             }
             $student->fill(request()->all()['student'])->save();
-    
+
             // 獲取 parentInfos 數據
-            $parentInfosData = request()->get('parentInfos', []);
-    
+            $parentInfosData = collect(request()->get('parentInfos', []));
+
+            // 獲取現有的 ParentInfo
+            $existingParentInfos = $student->parentInfos->keyBy('id');
+
+            // 處理新增和更新
             foreach ($parentInfosData as $parentInfoData) {
                 $parentInfoData['line_id'] = Str::random(50);
-                // 判斷是新增還是更新
+
                 if (isset($parentInfoData['id']) && !empty($parentInfoData['id'])) {
                     // 更新現有 parentInfo
                     $parentInfo = ParentInfo::find($parentInfoData['id']);
                     if ($parentInfo) {
                         $parentInfo->update($parentInfoData);
                     }
+                    // 從現有集合中移除已處理的 parentInfo
+                    $existingParentInfos->forget($parentInfoData['id']);
                 } else {
                     // 新增 parentInfo
                     $newParentInfo = new ParentInfo($parentInfoData);
                     $student->parentInfos()->save($newParentInfo);
                 }
             }
+
+            // 處理删除的 parentInfos
+            foreach ($existingParentInfos as $parentInfo) {
+                $parentInfo->delete();
+            }
         } catch (\Throwable $th) {
             Log::error($th);
-            // 可以選擇添加錯誤處理邏輯，例如回傳錯誤訊息
             return back()->withErrors(['msg' => '儲存失敗']);
         }
-    
+
         return redirect()->route('platform.students.list');
     }
-    
 
-    public function methodCreateContactBook()
-    {
-        return redirect()->route('platform.contactbooks.contactbook.edit', ['student_id' => $this->student->id]);
-    }
+
+
     public function methodGoBack()
     {
         return redirect()->route('platform.students.list');

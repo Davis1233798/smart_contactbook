@@ -132,7 +132,8 @@ class ContactBookEditScreen extends Screen
         $existingContactBook = ContactBook::whereDate('created_at', now()->toDateString())->first();
         $contactBook = $existingContactBook ? $existingContactBook->fill($data) : new ContactBook($data);
         $contactBook->save();
-
+        Log::info('$contactBook->id');
+        Log::info($contactBook);
         // 處理 Matrix 相關資料
         $this->handleMatrixData($contactBook, $data);
         Toast::info('聯絡簿記錄已' . ($existingContactBook ? '更新' : '儲存') . '。');
