@@ -18,11 +18,17 @@ use App\Http\Traits\ModelEventsTrait;
 class ContactBookListScreen extends Screen
 {
     use ModelEventsTrait;
-    public Request $request;
-    public function __construct(Request $request)
+    public ?Request $request = null;
+    public function name(): string
     {
-        $this->request = $request;
+        return '聯絡簿列表';
     }
+
+    public function description(): string
+    {
+        return '聯絡簿列表紀錄';
+    }
+
     public function query(Request $request): array
     {
         $this->request = $request;
@@ -71,7 +77,7 @@ class ContactBookListScreen extends Screen
                 ->cantHide()
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (ContactBook $contactBook) {
-                    Log::info($contactBook->id);
+
                     return Link::make()
                         ->icon('eye')
                         ->route('platform.contact-book.show', $this->request->query() + ['contactBookId' => $contactBook->id]);
@@ -81,7 +87,7 @@ class ContactBookListScreen extends Screen
                 ->cantHide()
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (ContactBook $contactBook) {
-                    Log::info($contactBook->id);
+
                     return Link::make()
                         ->icon('pencil')
                         ->route('platform.contact-book.edit',  $this->request->query() + ['contactBookId' => $contactBook->id]);
@@ -90,26 +96,16 @@ class ContactBookListScreen extends Screen
                 ->cantHide()
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (ContactBook $contactBook) {
-                    Log::info($contactBook->id);
                     return Button::make()
                         ->icon('trash')
-                        ->method('methodRemove')
                         ->confirm('確定要刪除此聯絡簿嗎？')
-                        ->parameters([
+                        ->method('methodRemove', [
                             'id' => $contactBook->id,
                         ]);
                 }),
         ];
     }
-    public function name(): string
-    {
-        return '聯絡簿列表';
-    }
 
-    public function description(): string
-    {
-        return '聯絡簿列表紀錄';
-    }
 
     public function sendContactBook(ContactBook $contactBook)
     {
@@ -129,10 +125,18 @@ class ContactBookListScreen extends Screen
     {
         return redirect()->route('platform.contact-book.edit', $contactBook);
     }
-    public function methodRemove(ContactBook $contactBook): RedirectResponse
+    public function methodRemove(Request $request): RedirectResponse
     {
-        $contactBook->delete();
-        Toast::info('聯絡簿已刪除');
+        $contactBookId = $request->input('id');
+        $contactBook = ContactBook::find($contactBookId);
+
+        if ($contactBook) {
+            $contactBook->delete();
+            Toast::info('聯絡簿已刪除');
+        } else {
+            Toast::error('找不到指定的聯絡簿');
+        }
+
         return redirect()->route('platform.contactbook.list');
     }
 }

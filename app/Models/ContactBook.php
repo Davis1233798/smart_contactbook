@@ -29,4 +29,18 @@ class ContactBook extends Model
     {
         return $this->hasMany(SchoolNotificationContent::class);
     }
+    public function delete()
+    {
+        // 首先刪除所有關聯的 ClassNotification 實例
+        $this->classNotifications()->delete();
+
+        // 接著刪除所有關聯的 StudentNotification 實例
+        $this->studentNotifications()->delete();
+
+        // 最後刪除所有關聯的 SchoolNotificationContent 實例
+        $this->schoolNotificationContents()->delete();
+
+        // 最後刪除 ContactBook 本身
+        return parent::delete();
+    }
 }
