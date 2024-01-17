@@ -76,7 +76,8 @@ class LineNotifySendAction
                     foreach ($scores as $subject => $score) {
                         $message .= $cr . $subject . ' 分數: ' . $score;
                     }
-                    $message .= $cr . '請您確認後點擊下列連結簽名' . $cr . '並提供您的寶貴回覆' . $cr . '(點擊連結即簽名完成,可不需回覆)';
+
+                    $message .= $cr . '請您確認後點擊下列連結簽名' . $cr . '或回覆任何意見給老師' . $cr . '(點擊連結即簽名完成,可不需回覆)';
                     $message .= $cr . $url;
 
                     foreach ($student->parentInfos as $parentInfo) {
