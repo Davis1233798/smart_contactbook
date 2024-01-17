@@ -8,6 +8,7 @@ use App\Models\StudentParentSignContactBook;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Crypt;
 
 class LineNotifySendAction
 {
@@ -45,10 +46,11 @@ class LineNotifySendAction
                         ->where('created_at', '<=', now()->endOfDay())
                         ->with('classNotifications', 'studentNotifications', 'schoolNotificationContents')
                         ->first();
-
-                    $url = config('app.url') . '/response/' . $student->parentInfos->first()->id . '/' . $student->id;
+                    $encryptedParentId = Crypt::encryptString($student->parentInfos->first()->id);
+                    $encryptedStudentId = Crypt::encryptString($student->id);
+                    $url = config('app.url') . '/response/' . $encryptedParentId . '/' . $encryptedStudentId;
                     $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
-                    $message .= $cr . $student->name . '同學的 學校通知事項如下:';
+                    $message .= $cr . $student->name . '同學的' . $cr . '學校通知事項如下:';
                     $index = 0;
                     if ($contactBook) {
                         foreach ($contactBook->schoolNotificationContents as $index => $schoolNotificationContent) {
