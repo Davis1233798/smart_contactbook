@@ -35,52 +35,16 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
 
-            // Menu::make(__('Users'))
-            //     ->icon('bs.people')
-            //     ->route('platform.systems.users')
-            //     ->permission('platform.systems.users')
-            //     ->title(__('Access Controls')),
-
-            // Menu::make(__('Roles'))
-            //     ->icon('bs.shield')
-            //     ->route('platform.systems.roles')
-            //     ->permission('platform.systems.roles')
-            //     ->divider(),
-
-            // Menu::make('Documentation')
-            //     ->title('Docs')
-            //     ->icon('bs.box-arrow-up-right')
-            //     ->url('https://orchid.software/en/docs')
-            //     ->target('_blank'),
-
-
-
-
-
             Menu::make('學生管理')
                 ->title('學生管理')
                 ->icon('bs.box-arrow-up-right')
                 ->route('platform.students.list'),
-
 
             Menu::make('聯絡簿管理')
                 ->title('聯絡簿管理')
                 ->icon('bs.box-arrow-up-right')
                 ->route('platform.contactbook.list'),
 
-            // Menu::make('課表管理')
-            //     ->title('課表管理')
-            //     ->icon('bs.box-arrow-up-right')
-            //     ->route('platform.subject-table.list'),
-
-
-
-
-            // Menu::make('Changelog')
-            //     ->icon('bs.box-arrow-up-right')
-            //     ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
-            //     ->target('_blank')
-            //     ->badge(fn () => Dashboard::version(), Color::DARK),
         ];
     }
 

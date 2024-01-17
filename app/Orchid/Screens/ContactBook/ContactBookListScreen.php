@@ -7,14 +7,25 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
 use App\Models\ContactBook;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Toast;
+use App\Http\Traits\ModelEventsTrait;
 
 class ContactBookListScreen extends Screen
 {
-    public function query(): array
+    use ModelEventsTrait;
+    public Request $request;
+    public function __construct(Request $request)
     {
+        $this->request = $request;
+    }
+    public function query(Request $request): array
+    {
+        $this->request = $request;
         return [
             'contactBooks' => ContactBook::paginate(),
         ];
@@ -60,18 +71,20 @@ class ContactBookListScreen extends Screen
                 ->cantHide()
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (ContactBook $contactBook) {
+                    Log::info($contactBook->id);
                     return Link::make()
                         ->icon('eye')
-                        ->route('platform.contact-book.show', $contactBook->id);
+                        ->route('platform.contact-book.show', $this->request->query() + ['contactBookId' => $contactBook->id]);
                 }),
 
             TD::make(__('編輯'))
                 ->cantHide()
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (ContactBook $contactBook) {
+                    Log::info($contactBook->id);
                     return Link::make()
                         ->icon('pencil')
-                        ->route('platform.contact-book.edit', $contactBook->id);
+                        ->route('platform.contact-book.edit',  $this->request->query() + ['contactBookId' => $contactBook->id]);
                 }),
             // 其他操作按鈕（如刪除等）可以在這裡添加
         ];

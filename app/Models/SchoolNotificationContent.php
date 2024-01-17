@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Screen\AsSource;
+
 class SchoolNotificationContent extends Model
 {
     use HasFactory;
@@ -12,6 +13,7 @@ class SchoolNotificationContent extends Model
 
     protected $fillable = [
         'school_notification_id',
+        'contact_book_id',
         'content',
         'created_by',
         'updated_by',
@@ -21,5 +23,4 @@ class SchoolNotificationContent extends Model
     {
         return $this->belongsTo(ContactBook::class);
     }
-
 }

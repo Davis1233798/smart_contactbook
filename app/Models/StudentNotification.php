@@ -14,7 +14,8 @@ class StudentNotification extends Model
 
     protected $fillable = [
         'student_id',
-        'contact_id',
+        'contact_book_id',
+        'sign_time',
         'content',
     ];
     public function student()

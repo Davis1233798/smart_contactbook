@@ -24,7 +24,7 @@ class ContactBook extends Model
     {
         return $this->hasMany(StudentNotification::class);
     }
-  
+
     public function schoolNotificationContents()
     {
         return $this->hasMany(SchoolNotificationContent::class);

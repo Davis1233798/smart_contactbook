@@ -13,6 +13,11 @@ use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Matrix;
 use Orchid\Screen\Fields\Select;
 use Illuminate\Http\Request;
+use App\Models\SchoolNotificationContent; // Add this line
+use App\Models\StudentNotification; // Add this line
+use App\Models\ClassNotification;
+
+use Illuminate\Support\Facades\Log;
 
 class ContactBookEditScreen extends Screen
 {
@@ -35,6 +40,7 @@ class ContactBookEditScreen extends Screen
             'contactBook' => $contactBook,
             'student_notifications' => $contactBook->studentNotifications ? $contactBook->studentNotifications : null,
             'class_notifications' => $contactBook->classnotifications ? $contactBook->classnotifications : null,
+            'school_notification_contents' => $contactBook->schoolNotificationContents ? $contactBook->schoolNotificationContents : null,
             'students' => $students, // 新增學生列表
         ];
     }
@@ -56,11 +62,9 @@ class ContactBookEditScreen extends Screen
 
         return [
             Layout::rows([
-                TextArea::make('contactBook.content')
-                    ->title('聯絡事項'),
+                // TextArea::make('contactBook.content')
+                //     ->title('聯絡事項'),
 
-                TextArea::make('contactBook.remark')
-                    ->title('備註'),
 
                 Group::make([
                     Matrix::make('schoolNotificationContents')
@@ -78,7 +82,6 @@ class ContactBookEditScreen extends Screen
                         ->title('班級通知事項')
                         ->columns([
                             '通知內容' => 'content',
-
                         ])
                         ->value($this->contactBook->classNotifications->values())
                         ->enableAdd(false),
@@ -89,15 +92,21 @@ class ContactBookEditScreen extends Screen
                         ->title('學生通知事項')
                         ->columns([
                             '學生' => 'student',
-                            '通知內容' => 'reply',
+                            '通知內容' => 'content',
                         ])
                         ->fields([
                             'student' => Select::make('student')->options($students),
                         ])
                         ->value($this->contactBook->studentNotifications->values())
                         ->enableAdd(false),
+
+
                 ]),
+                TextArea::make('contactBook.remark')
+                    ->title('備註'),
             ]),
+
+
         ];
     }
 
@@ -113,7 +122,6 @@ class ContactBookEditScreen extends Screen
 
     public function save(ContactBook $contactBook, Request $request)
     {
-        // 從請求中獲取表單數據
         $data = $request->validate([
             'contactBook.content' => 'required|string',
             'contactBook.remark' => 'nullable|string',
@@ -122,21 +130,66 @@ class ContactBookEditScreen extends Screen
             'studentNotifications' => 'nullable|array',
         ]);
 
-        // 檢查是否已存在當日的聯絡簿記錄
+        // 更新或創建 ContactBook 實例
         $existingContactBook = ContactBook::whereDate('created_at', now()->toDateString())->first();
+        $contactBook = $existingContactBook ? $existingContactBook->fill($data) : new ContactBook($data);
+        $contactBook->save();
+        Log::info('$contactBook->id');
+        Log::info($contactBook);
+        // 處理 Matrix 相關資料
+        $this->handleMatrixData($contactBook, $data);
+        Toast::info('聯絡簿記錄已' . ($existingContactBook ? '更新' : '儲存') . '。');
+        return redirect()->route('platform.contactbook.list');
+    }
 
-        if ($existingContactBook) {
-            // 如果已存在，更新該記錄
-            $existingContactBook->update($data);
-            $message = '聯絡簿記錄已更新。';
-        } else {
-            // 如果不存在，創建新的記錄
-            ContactBook::create($data);
-            $message = '聯絡簿記錄已儲存。';
+    private function handleMatrixData($contactBook, $data)
+    {
+        Log::info('into handleMatrixData');
+        Log::info($contactBook);
+        // 檢查並處理 school_notification_contents
+        if (isset($data['schoolNotificationContents']) && is_array($data['schoolNotificationContents'])) {
+            foreach ($data['schoolNotificationContents'] as $contentData) {
+                // 在這裡進行創建或更新操作
+                SchoolNotificationContent::updateOrCreate(
+                    ['id' => $contentData['id'] ?? null],
+                    [
+                        'contact_book_id' => $contactBook->id,
+                        'content' => $contentData['content'],
+                        'created_by' => auth()->id(),
+                        'updated_by' => auth()->id(),
+                    ]
+                );
+            }
         }
 
-        // 顯示成功信息並重定向到列表頁面
-        Toast::info($message);
-        return redirect()->route('platform.contactbook.list');
+        // 檢查並處理 student_notifications
+        if (isset($data['studentNotifications']) && is_array($data['studentNotifications'])) {
+            foreach ($data['studentNotifications'] as $notificationData) {
+                // 在這裡進行創建或更新操作                
+                StudentNotification::updateOrCreate(
+                    ['id' => $notificationData['id'] ?? null],
+
+                    [
+                        'student_id' => $notificationData['student'],
+                        'contact_book_id' => $contactBook->id,
+                        'sign_time' => now(),
+                        'content' => $notificationData['content'],
+                    ]
+                );
+            }
+        }
+        // 檢查並處理 class_notifications
+        if (isset($data['classNotifications']) && is_array($data['classNotifications'])) {
+            foreach ($data['classNotifications'] as $notificationData) {
+                // 在這裡進行創建或更新操作
+                ClassNotification::updateOrCreate(
+                    ['id' => $notificationData['id'] ?? null],
+                    [
+                        'contact_book_id' => $contactBook->id,
+                        'content' => $notificationData['content'],
+                    ]
+                );
+            }
+        }
     }
 }

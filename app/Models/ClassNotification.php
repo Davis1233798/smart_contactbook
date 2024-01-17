@@ -13,6 +13,7 @@ class ClassNotification extends Model
 
     protected $fillable = [
         'class_id',
+        'contact_book_id',
         'title',
         'content',
         'file',
@@ -25,5 +26,4 @@ class ClassNotification extends Model
     {
         return $this->belongsTo(ContactBook::class);
     }
-
 }

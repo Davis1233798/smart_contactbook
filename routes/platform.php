@@ -79,16 +79,6 @@ Route::screen('roles', RoleListScreen::class)
         ->parent('platform.index')
         ->push(__('Roles'), route('platform.systems.roles')));
 
-// Example...
-// Route::screen('example', ExampleScreen::class)
-//     ->name('platform.example')
-//     ->breadcrumbs(fn (Trail $trail) => $trail
-//         ->parent('platform.index')
-//         ->push('Example Screen'));
-
-
-
-
 Route::screen('school', SchoolListScreen::class)
     ->name('platform.schools.school.list');
 Route::screen('school/{schoolClass}/edit', SchoolEditScreen::class)
@@ -119,9 +109,9 @@ use App\Orchid\Screens\ContactBook\ContactBookShowScreen;
 
 Route::screen('contact-book', ContactBookListScreen::class)
     ->name('platform.contactbook.list');
-Route::screen('contact-book/edit', ContactBookEditScreen::class)
+Route::screen('contact-book/edit/{contactBookId}', ContactBookEditScreen::class)
     ->name('platform.contact-book.edit');
-Route::screen('contact-book/show', ContactBookShowScreen::class)
+Route::screen('contact-book/show/{contactBookId}', ContactBookShowScreen::class)
     ->name('platform.contact-book.show');
 Route::screen('contact-book/create', ContactBookEditScreen::class)
     ->name('platform.contact-book.create');

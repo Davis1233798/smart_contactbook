@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -13,7 +14,7 @@ return new class () extends Migration {
         Schema::create('student_notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->nullable()->comment('學生ID');
-            $table->foreignId('contact_id')->nullable()->comment('聯絡簿ID');
+            $table->foreignId('contact_book_id')->nullable()->comment('聯絡簿ID');
             $table->text('reply')->nullable()->comment('回覆');
             $table->timestamp('sign_time')->nullable()->comment('簽名時間');
             $table->text('content')->nullable()->comment('內容');
