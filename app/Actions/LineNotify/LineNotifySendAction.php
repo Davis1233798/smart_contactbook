@@ -77,7 +77,7 @@ class LineNotifySendAction
 
                     for ($i = 0; $i < 3; $i++) {
                         $subject = $subjects[$i];
-                        $score = rand(0, 100);
+                        $score = rand(60, 100);
                         $scores[$subject] = $score;
                     }
 
