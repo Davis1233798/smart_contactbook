@@ -86,7 +86,19 @@ class ContactBookListScreen extends Screen
                         ->icon('pencil')
                         ->route('platform.contact-book.edit',  $this->request->query() + ['contactBookId' => $contactBook->id]);
                 }),
-            // 其他操作按鈕（如刪除等）可以在這裡添加
+            TD::make(__('刪除'))
+                ->cantHide()
+                ->align(TD::ALIGN_CENTER)
+                ->render(function (ContactBook $contactBook) {
+                    Log::info($contactBook->id);
+                    return Button::make()
+                        ->icon('trash')
+                        ->method('methodRemove')
+                        ->confirm('確定要刪除此聯絡簿嗎？')
+                        ->parameters([
+                            'id' => $contactBook->id,
+                        ]);
+                }),
         ];
     }
     public function name(): string
@@ -116,5 +128,11 @@ class ContactBookListScreen extends Screen
     public function methodEdit(ContactBook $contactBook): RedirectResponse
     {
         return redirect()->route('platform.contact-book.edit', $contactBook);
+    }
+    public function methodRemove(ContactBook $contactBook): RedirectResponse
+    {
+        $contactBook->delete();
+        Toast::info('聯絡簿已刪除');
+        return redirect()->route('platform.contactbook.list');
     }
 }
