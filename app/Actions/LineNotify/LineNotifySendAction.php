@@ -14,15 +14,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class LineNotifySendAction
 {
     /**
-     * Create a new action instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Execute the action.
      *
      * @return void
@@ -31,7 +22,7 @@ class LineNotifySendAction
      */
     public function execute()
     {
-        // Log::info('into execute');
+
         try {
             $client = new Client();
 
