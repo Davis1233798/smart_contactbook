@@ -111,10 +111,10 @@ Route::screen('contact-book', ContactBookListScreen::class)
     ->name('platform.contactbook.list');
 Route::screen('contact-book/edit/{contactBookId}', ContactBookEditScreen::class)
     ->name('platform.contact-book.edit');
-Route::screen('contact-book/show/{contactBookId}', ContactBookShowScreen::class)
-    ->name('platform.contact-book.show');
 Route::screen('contact-book/create', ContactBookEditScreen::class)
     ->name('platform.contact-book.create');
+Route::screen('contact-book/show/{contactBookId}', ContactBookShowScreen::class)
+    ->name('platform.contact-book.show');
 
 use App\Orchid\Screens\StudentNotification\StudentNotificationListScreen;
 use App\Orchid\Screens\StudentNotification\StudentNotificationEditScreen;

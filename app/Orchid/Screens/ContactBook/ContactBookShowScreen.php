@@ -15,17 +15,38 @@ use Orchid\Screen\TD;
 use App\Orchid\Layouts\ContactBook\StudentNotificationLayout;
 use App\Orchid\Layouts\ContactBook\ClassNotificationLayout;
 use App\Orchid\Layouts\ContactBook\SchoolNotificationContentLayout;
+use Orchid\Screen\Actions\Link;
 
 class ContactBookShowScreen extends Screen
 {
+
+
     private $contactBook;
     public Request $request;
+
+    public function name(): string
+    {
+        return '檢視聯絡簿內容';
+    }
 
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
+    public function description(): string
+    {
+        return '檢視聯絡簿內容';
+    }
+    public function commandBar(): array
+    {
+        return [
+
+            Link::make('回上一頁')
+                ->icon('arrow-left')
+                ->route('platform.contactbook.list'),
+        ];
+    }
     public function query($contactBookId): array
     {
 
@@ -41,19 +62,17 @@ class ContactBookShowScreen extends Screen
         ];
     }
 
-    public function commandBar(): array
-    {
-        return [];
-    }
+
 
     public function layout(): array
     {
         return [
             Layout::rows([
-                Label::make('contactBook.date')
-                    ->title('日期'),
-                Label::make('contactBook.content')
-                    ->title('聯絡事項'),
+
+                Label::make('contactBook.created_at')
+                    ->title('日期')
+                    ->value($this->contactBook ? $this->contactBook->created_at->toDateString() : ''),
+
                 Label::make('contactBook.remark')
                     ->title('備註'),
                 // 以下為新增的部分

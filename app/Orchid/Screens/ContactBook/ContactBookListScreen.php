@@ -29,7 +29,7 @@ class ContactBookListScreen extends Screen
         return '聯絡簿列表紀錄';
     }
 
-    public function query(Request $request): array
+    public function query(Request $request): iterable
     {
         $this->request = $request;
         return [
@@ -74,7 +74,6 @@ class ContactBookListScreen extends Screen
                 ->cantHide()
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (ContactBook $contactBook) {
-
                     return Link::make()
                         ->icon('eye')
                         ->route('platform.contact-book.show', $this->request->query() + ['contactBookId' => $contactBook->id]);
@@ -120,7 +119,9 @@ class ContactBookListScreen extends Screen
     }
     public function methodEdit(ContactBook $contactBook): RedirectResponse
     {
-        return redirect()->route('platform.contact-book.edit', $contactBook);
+        Log::info('into methodEdit');
+        Log::info($contactBook->id);
+        return redirect()->route('platform.contact-book.edit', ['id' => $contactBook->id]);
     }
     public function methodRemove(Request $request): RedirectResponse
     {

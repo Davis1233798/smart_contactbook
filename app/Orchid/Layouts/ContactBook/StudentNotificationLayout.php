@@ -17,7 +17,10 @@ class StudentNotificationLayout extends Table
 
             TD::make('student_name', '學生姓名')
                 ->render(function ($studentNotifications) {
+                    Log::info('student_name');
+                    Log::info($studentNotifications->student_id);
                     $nameData = Student::find($studentNotifications->student_id);
+                    Log::info($nameData);
                     $name = json_decode($nameData)->name;
                     return $name;
                 }),
