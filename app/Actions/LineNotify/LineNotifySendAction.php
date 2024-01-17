@@ -14,15 +14,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class LineNotifySendAction
 {
     /**
-     * Create a new action instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Execute the action.
      *
      * @return void
@@ -47,12 +38,15 @@ class LineNotifySendAction
                         ->where('created_at', '<=', now()->endOfDay())
                         ->with('classNotifications', 'studentNotifications', 'schoolNotificationContents')
                         ->first();
-                    $customPayload = [
+                    $customClaims = [
                         'parent_id' => $student->parentInfos->first()->id,
                         'student_id' => $student->id,
                         // 其他需要的信息
                     ];
-                    $token = JWTAuth::claims($customPayload)->setTTL(2880)->fromUser($student); // 2880 分鐘 = 48 小時 = 2 天
+
+                    $payload = JWTAuth::factory()->claims($customClaims)->make();
+                    $token = JWTAuth::encode($payload);
+
                     $url = config('app.url') . "/response?token=$token";
                     $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
                     $message .= $cr . $student->name . '同學的' . $cr . '學校通知事項如下:';
