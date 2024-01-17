@@ -146,12 +146,19 @@ class StudentListScreen extends Screen
 
         // 直接發送ContactBook
         $action = app()->make(LineNotifySendAction::class);
-        $action->execute();
+
 
         // 將is_sent改為1
         if ($contactBook) {
             $contactBook->is_sent = 1;
             $contactBook->save();
+        }
+        try {
+            $action->execute();
+            Toast::info(__('聯絡簿已發送'));
+        } catch (\Exception $e) {
+            Toast::error(__('發生錯誤') . $e->getMessage());
+            throw $e;
         }
 
         // 返回列表

@@ -44,8 +44,7 @@ class LineNotifySendAction
                         // 其他需要的信息
                     ];
 
-                    $payload = JWTAuth::factory()->claims($customClaims)->make();
-                    $token = JWTAuth::encode($payload);
+                    $token = JWTAuth::fromUser($student, $customClaims);
 
                     $url = config('app.url') . "/response?token=$token";
                     $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
@@ -78,9 +77,6 @@ class LineNotifySendAction
                         $score = rand(0, 100);
                         $scores[$subject] = $score;
                     }
-
-                    // Output the generated data
-                    var_dump($scores);
 
                     $message .= $cr . '考試分數如下:';
                     foreach ($scores as $subject => $score) {
