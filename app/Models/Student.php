@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Orchid\Screen\AsSource;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Student extends Model implements JWTSubject
+class Student extends Model
 {
     use HasFactory;
     use AsSource;
@@ -48,24 +48,5 @@ class Student extends Model implements JWTSubject
     public function studentParentSignContactBooks()
     {
         return $this->hasMany(StudentParentSignContactBook::class);
-    }
-    /**
-     * 獲取將存儲在 JWT 負載中的識別符。
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * 返回一個 key-value 數組，其中包含要添加到 JWT 的任何自定義聲明。
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
     }
 }
