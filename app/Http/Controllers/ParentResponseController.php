@@ -47,6 +47,6 @@ class ParentResponseController extends Controller
         );
 
         // 如果需要，進行其他處理
-        return view('response_success', ['parentInfo' => $parentInfo]);
+        return view('response_success');
     }
 }

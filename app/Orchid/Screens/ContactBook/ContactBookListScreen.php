@@ -51,9 +51,6 @@ class ContactBookListScreen extends Screen
         return [
             Layout::table('contactBooks', array_merge(
                 [
-                    TD::make('id', 'ID')
-                        ->sort()
-                        ->cantHide(),
 
                     TD::make('created_at', '聯絡簿')
                         ->sort()

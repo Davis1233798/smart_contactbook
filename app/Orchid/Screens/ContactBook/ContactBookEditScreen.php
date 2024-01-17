@@ -23,8 +23,9 @@ class ContactBookEditScreen extends Screen
 {
     private $contactBook;
 
-    public function query(ContactBook $contactBook): array
+    public function query(Request $request): array
     {
+        $contactBook = ContactBook::whereDate('created_at', now()->toDateString())->first();
         $contactBook->load(
             'classNotifications',
             'studentNotifications',
@@ -35,7 +36,8 @@ class ContactBookEditScreen extends Screen
         // 取得所有學生
         $students = Student::all(); // 假設學生有 id 和 name 欄位
         $students->load('studentParentSignContactBooks');
-
+        Log::info('$contactBook');
+        Log::info($contactBook);
         return [
             'contactBook' => $contactBook,
             'student_notifications' => $contactBook->studentNotifications ? $contactBook->studentNotifications : null,
@@ -100,7 +102,6 @@ class ContactBookEditScreen extends Screen
                         ->value($this->contactBook->studentNotifications->values())
                         ->enableAdd(false),
 
-
                 ]),
                 TextArea::make('contactBook.remark')
                     ->title('備註'),
@@ -131,9 +132,12 @@ class ContactBookEditScreen extends Screen
         // 更新或創建 ContactBook 實例
         $existingContactBook = ContactBook::whereDate('created_at', now()->toDateString())->first();
         $contactBook = $existingContactBook ? $existingContactBook->fill($data) : new ContactBook($data);
+        Log::info('$contactBook->id');
+        Log::info($request->input('contactBook.remark'));
+        $contactBook->remark = $request->input('contactBook.remark');
         $contactBook->save();
         Log::info('$contactBook->id');
-        Log::info($contactBook);
+
         // 處理 Matrix 相關資料
         $this->handleMatrixData($contactBook, $data);
         Toast::info('聯絡簿記錄已' . ($existingContactBook ? '更新' : '儲存') . '。');
