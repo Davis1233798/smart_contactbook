@@ -123,8 +123,6 @@ class ContactBookEditScreen extends Screen
     public function save(ContactBook $contactBook, Request $request)
     {
         $data = $request->validate([
-
-            'contactBook.remark' => 'nullable|string',
             'schoolNotificationContents' => 'nullable|array',
             'classNotifications' => 'nullable|array',
             'studentNotifications' => 'nullable|array',
