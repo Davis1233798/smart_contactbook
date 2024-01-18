@@ -100,7 +100,7 @@ class LineNotifyController extends Controller
                     'message' => $message,
                 ]
             ]);
-            return view('success');
+            return redirect()->route('platform.main');
         } catch (Exception $exc) {
             Log::error($exc);
             throw $exc;
