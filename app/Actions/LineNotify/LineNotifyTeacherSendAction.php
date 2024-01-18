@@ -35,7 +35,7 @@ class LineNotifyTeacherSendAction
         // Log::info('into execute');
         try {
             $client = new Client();
-            $lineNotifyTokens = User::all()->get('line_token');
+            $lineNotifyTokens = User::all()->pluck('line_token');
 
             if (!$lineNotifyTokens->isEmpty()) {
                 foreach ($lineNotifyTokens as $token) {
