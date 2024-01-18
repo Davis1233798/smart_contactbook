@@ -83,7 +83,10 @@ class ContactBookListScreen extends Screen
                 ->cantHide()
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (ContactBook $contactBook) {
-
+                    if ($contactBook->created_at < today()) {
+                        // 如果是，則返回一個空字串
+                        return '';
+                    }
                     return Link::make()
                         ->icon('pencil')
                         ->route('platform.contact-book.edit',  $this->request->query() + ['contactBookId' => $contactBook->id]);
