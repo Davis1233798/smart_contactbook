@@ -41,7 +41,7 @@ class LineNotifySendAction
 
                     $encryptedParams = Crypt::encrypt(['parent_id' => $student->parentInfos->first()->id, 'student_id' => $student->id]);
                     $url = config('app.url') . '/response/' . $encryptedParams;
-                    $message = $cr . '親愛的家長您好';
+                    $message = $cr . '親愛的' . $student->parentInfos->first()->name . '您好';
                     $message .= $cr . $student->name . '同學的' . $cr . '學校通知事項如下:';
                     $index = 0;
                     if ($contactBook) {

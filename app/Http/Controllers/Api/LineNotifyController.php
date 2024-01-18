@@ -40,7 +40,9 @@ class LineNotifyController extends Controller
             $parent->update(['line_token' => $accessToken]);
 
             $client = new Client();
-            $message = '【' . config('app.name') . '】綁定完成';
+            $cr = " \n"; //換行字元
+            $message = '綁定完成';
+            $message .= $cr . '【輕鬆簽名 溝通無誤】';
             $response = $client->request('POST', 'https://notify-api.line.me/api/notify', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken,
@@ -48,11 +50,11 @@ class LineNotifyController extends Controller
                 'form_params' => [
                     'message' => $message,
                 ]
-            ]);            
+            ]);
             return view('success');
         } catch (Exception $exc) {
             Log::error($exc);
             throw $exc;
         }
-    }   
+    }
 }
