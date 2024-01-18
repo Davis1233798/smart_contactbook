@@ -19,8 +19,8 @@ class ParentResponseController extends Controller
         $student_id = $decrypted['student_id'];
         $parentInfo = ParentInfo::find($parent_id);
         $parentInfo->load('student');
-        $action = app()->make(LineNotifyTeacherSendAction::class);
-        $action->execute($parentInfo->student->name . '今日聯絡簿已簽');
+        $action = app()->make(LineNotifyTeacherSendAction::class, ['message' => $parentInfo->student->name . '今日聯絡簿已簽']);
+        $action->execute();
         $parentInfo->student->signed = 1;
         $parentInfo->student->save();
 
@@ -38,10 +38,9 @@ class ParentResponseController extends Controller
         $parent_id = $decrypted['parent_id'];
         $student_id = $decrypted['student_id'];
 
-
         $parentInfo = ParentInfo::find($parent_id);
-        $action = app()->make(LineNotifyTeacherSendAction::class);
-        $action->execute($parentInfo->student->name . '已回覆' . $request->message);
+        $action = app()->make(LineNotifyTeacherSendAction::class, ['message' => $parentInfo->student->name . '已回覆' . $request->message]);
+        $action->execute();
         // 創建或更新資料庫記錄
         $record = StudentParentSignContactBook::updateOrCreate(
             [

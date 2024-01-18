@@ -38,12 +38,13 @@ class LineNotifyTeacherSendAction
             $lineNotifyTokens = User::all()->pluck('line_token');
 
             if (!$lineNotifyTokens->isEmpty()) {
-                foreach ($lineNotifyTokens as $token) {
+                foreach ($lineNotifyTokens->all() as $token) {
                     try {
+                        Log::info($token);
                         $cr = " \n"; //換行字元
                         $response = $client->request('POST', 'https://notify-api.line.me/api/notify', [
                             'headers' => [
-                                'Authorization' => 'Bearer ' . $token->code,
+                                'Authorization' => 'Bearer ' . $token,
                             ],
                             'form_params' => [
                                 'message' => $cr . $this->message,
