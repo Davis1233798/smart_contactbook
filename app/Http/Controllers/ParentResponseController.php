@@ -41,8 +41,9 @@ class ParentResponseController extends Controller
         $parentInfo = ParentInfo::find($parent_id);
         $cr = " \n"; //換行字元
         $url = config('app.url') . '/admin/student/' . $student_id . '/edit';
-        $message = $parentInfo->student->name . '已回覆' . $request->message;
-        $message .= $url;
+        $message = $parentInfo->student->name . '已回覆 :';
+        $message .= $cr . $request->message;
+        $message .= $cr . $url;
         $action = app()->make(LineNotifyTeacherSendAction::class, ['message' => $message]);
         $action->execute();
         // 創建或更新資料庫記錄
