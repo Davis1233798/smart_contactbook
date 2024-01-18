@@ -39,10 +39,16 @@ class ContactBookListScreen extends Screen
 
     public function commandBar(): array
     {
+        $contactBooks = ContactBook::whereDate('created_at', today())->count();
+
+        if ($contactBooks > 0) {
+            return [];
+        }
+
         return [
             Link::make('新增聯絡簿')
                 ->icon('plus')
-                ->route('platform.contact-book.create'),
+                ->route('platform.contact-book.create')
         ];
     }
 

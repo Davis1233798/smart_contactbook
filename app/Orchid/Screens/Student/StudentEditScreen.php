@@ -30,16 +30,22 @@ class StudentEditScreen extends Screen
      */
     public function query(Student $student): array
     {
-        $student
-            ->load('schoolClass')
-            ->load('parentInfos')
-            ->load('studentParentSignContactBooks');
+        $student->load('schoolClass', 'parentInfos');
+
+        $studentParentSignContactBooks = $student->studentParentSignContactBooks->map(function ($item) {
+            $item->created_at_formatted = $item->created_at->timezone('Asia/Taipei')->format('Y-m-d H:i');
+            return $item;
+        });
+
         $this->student = $student;
+
         return [
             'student' => $student,
             'parentInfos' => $student->parentInfos,
+            'studentParentSignContactBooks' => $studentParentSignContactBooks
         ];
     }
+
 
     /**
      * Button commands.
@@ -109,7 +115,7 @@ class StudentEditScreen extends Screen
                     Matrix::make('studentParentSignContactBooks')
                         ->columns([
                             '回覆內容' => 'reply',
-                            '回覆時間' => 'created_at',
+                            '回覆時間' => 'created_at_formatted',
                         ])
                         ->value($this->student->studentParentSignContactBooks->values())
                         ->enableAdd(false),

@@ -19,5 +19,8 @@ class StudentParentSignContactBook extends Model
         'content',
         'remark'
     ];
-
+    public function getCreatedAtFormattedAttribute()
+    {
+        return $this->created_at->timezone('Asia/Taipei')->format('Y-m-d H:i');
+    }
 }
