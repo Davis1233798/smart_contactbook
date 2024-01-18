@@ -81,9 +81,12 @@ class LineNotifyController extends Controller
             $accessToken = json_decode($response->getBody(), true)['access_token'];
             //紀錄access token
             $parent =   User::where('line_id', $res['state'])->first();
+            Log::info($parent);
+            Log::info($accessToken);
             //紀錄發送訊息
             // $lineNotifyMessage = new LineNotifyMessage;
-            $parent->update(['line_token' => $accessToken]);
+            $parent->line_token = $accessToken;
+            $parent->save();
 
             $client = new Client();
             $cr = " \n"; //換行字元

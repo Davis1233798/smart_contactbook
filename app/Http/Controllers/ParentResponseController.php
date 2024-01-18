@@ -7,6 +7,7 @@ use App\Models\StudentParentSignContactBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Crypt;
+use App\Actions\LineNotify\LineNotifyTeacherSendAction;
 
 class ParentResponseController extends Controller
 {
@@ -18,6 +19,8 @@ class ParentResponseController extends Controller
         $student_id = $decrypted['student_id'];
         $parentInfo = ParentInfo::find($parent_id);
         $parentInfo->load('student');
+        $action = app()->make(LineNotifyTeacherSendAction::class);
+        $action->execute($parentInfo->student->name . '今日聯絡簿已簽');
         $parentInfo->student->signed = 1;
         $parentInfo->student->save();
 
@@ -35,7 +38,10 @@ class ParentResponseController extends Controller
         $parent_id = $decrypted['parent_id'];
         $student_id = $decrypted['student_id'];
 
+
         $parentInfo = ParentInfo::find($parent_id);
+        $action = app()->make(LineNotifyTeacherSendAction::class);
+        $action->execute($parentInfo->student->name . '已回覆' . $request->message);
         // 創建或更新資料庫記錄
         $record = StudentParentSignContactBook::updateOrCreate(
             [
