@@ -198,5 +198,8 @@ return [
     'line_id' => env('LINE_NOTIFY_CLIENT_ID'),
     'line_secret' => env('LINE_NOTIFY_CLIENT_SECRET'),
     'jwt_secret' => env('JWT_SECRET'),
+    'teacher_line_id' => env('LINE_NOTIFY_TEACHER_CLIENT_ID'),
+    'teacher_line_secret' => env('LINE_NOTIFY_TEACHER_CLIENT_SECRET'),
+
 
 ];

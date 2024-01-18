@@ -6,7 +6,9 @@ namespace App\Orchid\Screens\User;
 
 use App\Orchid\Layouts\User\ProfilePasswordLayout;
 use App\Orchid\Layouts\User\UserEditLayout;
+use App\Orchid\Layouts\User\TeacherQrcodeLayout;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Orchid\Access\Impersonation;
@@ -17,6 +19,7 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
+use Illuminate\Support\Str;
 
 class UserProfileScreen extends Screen
 {
@@ -28,7 +31,26 @@ class UserProfileScreen extends Screen
      */
     public function query(Request $request): iterable
     {
+        $line_id = $request->user()->line_id ?? Str::random(32);
+        // Write the line_id to the database if it doesn't exist
+        if (!$request->user()->line_id) {
+            $request->user()->line_id = $line_id;
+            $request->user()->save();
+        }
+        $lineNotifyUrl = 'https://notify-bot.line.me/oauth/authorize?' .
+            http_build_query([
+                'response_type' => 'code',
+                'scope' => 'notify',
+                'response_mode' => 'form_post',
+                'client_id' => config('app.teacher_line_id'),
+                'redirect_uri' => config('app.url') . '/api/teacher',
+                'state' => $line_id,
+            ]);
+
+        Cache::set('lineNotifyUrl', $lineNotifyUrl);
+
         return [
+            'url' => $lineNotifyUrl,
             'user' => $request->user(),
         ];
     }
@@ -95,6 +117,8 @@ class UserProfileScreen extends Screen
                         ->icon('bs.check-circle')
                         ->method('changePassword')
                 ),
+            Layout::block(TeacherQrcodeLayout::class)
+                ->title(__('綁定教師專用Line Notify')),
         ];
     }
 
@@ -119,7 +143,7 @@ class UserProfileScreen extends Screen
     {
         $guard = config('platform.guard', 'web');
         $request->validate([
-            'old_password' => 'required|current_password:'.$guard,
+            'old_password' => 'required|current_password:' . $guard,
             'password'     => 'required|confirmed|different:old_password',
         ]);
 

@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/callback', [LineNotifyController::class, 'callback']);
+Route::post('/teacher', [LineNotifyController::class, 'teacher']);
