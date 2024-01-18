@@ -63,19 +63,19 @@ class LineNotifySendAction
                         $message .= $cr . ($index + 1) . '.' . $studentNotification->content;
                     }
                     // Generate random subjects and scores
-                    $subjects = ['國文', '英文', '數學', '自然', '歷史', '生物'];
-                    $scores = [];
+                    // $subjects = ['國文', '英文', '數學', '自然', '歷史', '生物'];
+                    // $scores = [];
 
-                    for ($i = 0; $i < 3; $i++) {
-                        $subject = $subjects[$i];
-                        $score = rand(60, 100);
-                        $scores[$subject] = $score;
-                    }
+                    // for ($i = 0; $i < 3; $i++) {
+                    //     $subject = $subjects[$i];
+                    //     $score = rand(60, 100);
+                    //     $scores[$subject] = $score;
+                    // }
 
-                    $message .= $cr . '考試分數如下:';
-                    foreach ($scores as $subject => $score) {
-                        $message .= $cr . $subject . ' 分數: ' . $score;
-                    }
+                    // $message .= $cr . '考試分數如下:';
+                    // foreach ($scores as $subject => $score) {
+                    //     $message .= $cr . $subject . ' 分數: ' . $score;
+                    // }
 
                     $message .= $cr . '請您確認後點擊下列連結簽名' . $cr . '或回覆任何意見給老師' . $cr . '(點擊連結即簽名完成,可不需回覆)';
                     $message .= $cr . $url;
