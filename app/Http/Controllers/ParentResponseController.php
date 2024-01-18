@@ -39,7 +39,11 @@ class ParentResponseController extends Controller
         $student_id = $decrypted['student_id'];
 
         $parentInfo = ParentInfo::find($parent_id);
-        $action = app()->make(LineNotifyTeacherSendAction::class, ['message' => $parentInfo->student->name . '已回覆' . $request->message]);
+        $cr = " \n"; //換行字元
+        $url = config('app.url') . '/admin/student/'.$student_id.'/edit';
+        $message = $parentInfo->student->name . '已回覆' . $request->message;
+        $message .=$url;
+        $action = app()->make(LineNotifyTeacherSendAction::class, ['message' => ]);
         $action->execute();
         // 創建或更新資料庫記錄
         $record = StudentParentSignContactBook::updateOrCreate(
